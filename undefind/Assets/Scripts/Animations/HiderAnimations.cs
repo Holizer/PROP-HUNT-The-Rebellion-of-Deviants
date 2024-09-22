@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class animationScriptController : MonoBehaviour
+public class HiderAnimations : MonoBehaviour
 {
+    [Header("Компоненты")]
     Animator animator;
+    
+    [Header("Переменные скорости")]
     float velocity = 0.0f;
-    [SerializeField] private float acceleration = 0.1f;
+
+    [Header("Настройки движения")]
+    [SerializeField] private float acceleration = 0.3f;
     [SerializeField] private float deceleration = 0.8f;
-    [SerializeField] private float runMultiplier = 6.0f;
+    [SerializeField] private float runMultiplier = 3.0f;
     [SerializeField] private float quickStopMultiplier = 4.0f;
+    
+    [Header("Хеши анимаций")]
     int VelocityHash;
 
     void Start()
@@ -33,7 +40,7 @@ public class animationScriptController : MonoBehaviour
             velocity += Time.deltaTime * acceleration;
         }
 
-        if (forwardPressed && !runPressed && velocity > .2f)
+        if (forwardPressed && !runPressed && velocity > .5f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
@@ -43,7 +50,7 @@ public class animationScriptController : MonoBehaviour
             velocity -= Time.deltaTime * deceleration;
         }
 
-        if (!runPressed && velocity > 0.2f && !forwardPressed)
+        if (!runPressed && velocity > 0.5f && !forwardPressed)
         {
             velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
         }

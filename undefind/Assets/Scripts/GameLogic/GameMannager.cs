@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     {
         StartGame();
     }
-
     public void StartGame()
     {
         CreatePlayer(PlayerRole.Hider, hiderSpawnPoints[0]);

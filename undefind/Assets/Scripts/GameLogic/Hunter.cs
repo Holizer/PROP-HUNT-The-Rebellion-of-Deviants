@@ -1,13 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hunter : Player
 {
     public GameObject hunterModel;
-    void Start()
+
+    public void Initialize(GameObject model)
     {
         Role = PlayerRole.Hunter;
+        if (model != null)
+        {
+            hunterModel = model;
+            hunterModel.SetActive(true);
+            Debug.Log("Hunter проинциализирован!");
+        }
+        else
+        {
+            Debug.LogError("hunterModel не назначен!");
+        }
     }
 
     public void Shoot()

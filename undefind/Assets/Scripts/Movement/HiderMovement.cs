@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class HiderMovement : MonoBehaviour
 {
+    [Header("Компоненты")]
     public CharacterController controller;
     public Transform cameraTransform;
 
+    [Header("Настройки движения")]
     public float speed = 3f;
     public float runSpeedMultiplier = 1.5f;
     public float accelerationTime = 0.2f;
     public float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
 
+    private float turnSmoothVelocity;
     private float currentSpeed;
     private float targetSpeed;
     private float speedVelocity;
@@ -20,7 +22,6 @@ public class ThirdPersonMovement : MonoBehaviour
         currentSpeed = speed;
         targetSpeed = speed;
     }
-
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
