@@ -120,7 +120,6 @@ public class PlayerManager : MonoBehaviour
         GameObject aimPosition = currentPlayer.transform.Find("AimPosition").gameObject;
         Destroy(aimPosition);
     }
-
     private void ConfigureHunterMovement(GameObject model, CharacterController characterController)
     {
         Animator animator = model.GetComponent<Animator>();
@@ -154,7 +153,7 @@ public class PlayerManager : MonoBehaviour
             if (hunterAiming != null)
             {
                 hunterAiming.player = currentPlayer.transform;
-                hunterAiming.cameraRig = cameraRig;
+                hunterAiming.camera = thirdPersonCamera;
                 hunterAiming.aimPosition = aimPosition;
                 hunterAiming.enabled = true;
             }
@@ -167,7 +166,6 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.LogError("AimPosition не найден в текущем игроке!");
         }
-
     }
 
     private Vector3 GetSpawnPosition()

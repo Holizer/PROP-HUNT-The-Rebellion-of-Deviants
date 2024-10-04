@@ -417,6 +417,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c0125376568702c4181a704b7c39ee06, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 919132149155446097, guid: c0125376568702c4181a704b7c39ee06, type: 3}
       propertyPath: m_Name
       value: Hunter
       objectReference: {fileID: 0}
@@ -644,7 +648,7 @@ GameObject:
   - component: {fileID: 379940740}
   - component: {fileID: 379940739}
   - component: {fileID: 379940742}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +664,7 @@ Transform:
   m_GameObject: {fileID: 379940737}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0000000042234736, y: 0.9811508, z: 0.000000021443732, w: 0.19324356}
-  m_LocalPosition: {x: 7.76, y: 1.115, z: -4.366}
+  m_LocalPosition: {x: 7.76, y: 1.115, z: -4.24}
   m_LocalScale: {x: 0.22082561, y: 0.22082561, z: 0.22082561}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -846,58 +850,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1314125622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &489505344
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 489505345}
-  - component: {fileID: 489505346}
-  m_Layer: 0
-  m_Name: AimPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &489505345
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489505344}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.66, y: 1.611, z: -0.419}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1124423571}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &489505346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489505344}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1f25cd3c9c7f34ebc31aac58ee267f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraRig: {fileID: 0}
-  player: {fileID: 0}
-  aimPosition: {fileID: 0}
-  crosshair: {fileID: 1244328187}
-  aimSpeed: 5
-  rotationSpeed: 10
-  distanceBehindPlayer: 2
-  shoulderOffset: 0.5
 --- !u!4 &704894721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f2678f35f5f886a4bb86ab5152116294, type: 3}
@@ -1741,9 +1693,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 489505345}
   - {fileID: 1273713290}
   - {fileID: 1513294004}
+  - {fileID: 1268343157}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1124423572
@@ -2031,6 +1983,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244328187}
   m_CullTransparentMesh: 1
+--- !u!1 &1268343156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268343157}
+  - component: {fileID: 1268343158}
+  m_Layer: 0
+  m_Name: AimPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1268343157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268343156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.802, y: 1.74, z: -1.077}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1124423571}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1268343158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268343156}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1f25cd3c9c7f34ebc31aac58ee267f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  aimPosition: {fileID: 0}
+  player: {fileID: 0}
+  crosshair: {fileID: 1244328187}
+  aimSpeed: 70
+  returnSpeed: 0.3
 --- !u!1 &1273713288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,7 +2046,7 @@ GameObject:
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2087,8 +2089,8 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 128
-  minCameraDistance: 0.6
-  collisionHeightOffset: 1.5
+  minCameraDistance: 0.4
+  collisionHeightOffset: 1.9
   cameraRadius: 0.3
 --- !u!1 &1314125621
 GameObject:
@@ -2134,7 +2136,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c0125376568702c4181a704b7c39ee06, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.508
+      value: -3.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c0125376568702c4181a704b7c39ee06, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2172,6 +2174,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c0125376568702c4181a704b7c39ee06, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 919132149155446097, guid: c0125376568702c4181a704b7c39ee06, type: 3}
       propertyPath: m_Name
       value: Hider
