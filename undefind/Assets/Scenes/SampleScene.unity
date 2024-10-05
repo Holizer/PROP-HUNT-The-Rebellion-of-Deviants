@@ -1673,7 +1673,7 @@ GameObject:
   - component: {fileID: 1124423571}
   - component: {fileID: 1124423572}
   - component: {fileID: 1124423573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2028,11 +2028,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  aimPosition: {fileID: 0}
   player: {fileID: 0}
   crosshair: {fileID: 1244328187}
-  aimSpeed: 70
-  returnSpeed: 0.3
+  aimPosition: {fileID: 0}
+  aimDistance: 0.7
+  aimOffset: {x: 0.4, y: 1.6, z: 0}
+  isAiming: 0
 --- !u!1 &1273713288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2046,7 @@ GameObject:
   - component: {fileID: 1273713291}
   m_Layer: 0
   m_Name: CameraRig
-  m_TagString: Untagged
+  m_TagString: Camera
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,23 +9,16 @@ public interface ICameraState
     void EnterState();
     void ExitState();
 }
-
-public abstract class CameraState : ICameraState
+public abstract class BaseCameraState : ICameraState
 {
     protected ThirdPersonCamera camera;
-    protected Transform player;
 
-    public CameraState(ThirdPersonCamera camera)
+    public BaseCameraState(ThirdPersonCamera camera)
     {
         this.camera = camera;
-        this.player = camera.player;
     }
-
     public virtual void EnterState() { }
-
     public virtual void ExitState() { }
-
-    public virtual void UpdateState() { }
-
-    public virtual void LateUpdateState() { }
+    public abstract void UpdateState();
+    public abstract void LateUpdateState();
 }

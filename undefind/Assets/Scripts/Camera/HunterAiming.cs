@@ -9,8 +9,7 @@ public class HunterAiming : MonoBehaviour
     public Transform aimPosition;
 
     [Header("Ќастройки")]
-    public float returnSpeed = 0.3f;
-    public float aimDistance = 4f;
+    public float aimDistance = 1f;
     public Vector3 aimOffset = new Vector3(0, 1, 0);
 
     public bool isAiming = false;
@@ -43,7 +42,7 @@ public class HunterAiming : MonoBehaviour
     private void ExitAimingMode()
     {
         isAiming = false;
-        camera.SetState(new ReturningCameraState(camera, aimPosition, returnSpeed));
+        camera.SetState(new NormalCameraState(camera));
         SetCrosshairVisibility(false);
     }
 
@@ -52,20 +51,16 @@ public class HunterAiming : MonoBehaviour
         if (crosshair != null)
         {
             crosshair.SetActive(isVisible);
+            Cursor.visible = false;
         }
     }
-
     private void UpdateAimPosition()
     {
         if (camera != null && aimPosition != null && !isAiming)
         {
-            // ¬ращаем aimPosition вокруг игрока, следу€ за камерой
             aimPosition.position = player.TransformPoint(aimOffset);
-
-            // ¬ращаем aimPosition вокруг игрока, следу€ за камерой
             aimPosition.RotateAround(player.position, Vector3.up, camera.transform.eulerAngles.y);
 
-            // ќбновл€ем позицию и вращение aimPosition
             aimPosition.position -= camera.transform.forward * aimDistance;
             aimPosition.rotation = camera.transform.rotation;
         }
