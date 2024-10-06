@@ -53,7 +53,6 @@ public class PlayerManager : MonoBehaviour
         GameObject modelPrefab = role == PlayerRole.Hunter ? hunterModelPrefab : hiderModelPrefab;
         GameObject model = Instantiate(modelPrefab, parent);
 
-        // Устанавливаем локальную позицию и вращение модели
         model.transform.localPosition = Vector3.zero;
         model.transform.localRotation = Quaternion.identity;
 

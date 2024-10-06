@@ -9,8 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     [Header("Параметры камеры")]
     public float distance = 5.0f;
-    public float sensitivityX = 150f;
-    public float sensitivityY = 100f;
+    public float sensitivity = 150f;
     public float smoothTime = 0.1f;
     public bool invertY = false;
 
@@ -24,10 +23,10 @@ public class ThirdPersonCamera : MonoBehaviour
     public float collisionHeightOffset = 1.5f;
     public float cameraRadius = 0.3f;
 
-    private float currentX = 0f;
-    private float currentY = 0f;
+    public float currentX = 0f;
+    public float currentY = 0f;
     private Vector3 currentVelocity;
-    private Vector3 collisionVelocity; // Отдельная переменная для плавного движения при столкновении
+    private Vector3 collisionVelocity;
 
     private BaseCameraState currentState;
 
@@ -72,16 +71,36 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public void UpdateRotation(float deltaX, float deltaY)
     {
-        currentX += deltaX * sensitivityX * Time.deltaTime;
+        currentX += deltaX * sensitivity * Time.deltaTime;
         currentY += invertY ? deltaY : -deltaY;
         currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
+    }
+
+    public void UpdateRotation(float deltaX, float deltaY, float sensitivity, bool invertY, float yMinLimit, float yMaxLimit)
+    {
+        currentX += deltaX * sensitivity * Time.deltaTime;
+        currentY += invertY ? deltaY : -deltaY;
+        currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
+    }
+
+    public void UpdateRotation(Vector3 target)
+    {
+        Vector3 direction = target - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        Vector3 euler = lookRotation.eulerAngles;
+        currentX = euler.y;
+        currentY = euler.x;
+    }
+    public void SetRotation()
+    {
+        transform.rotation = Quaternion.Euler(currentY, currentX, 0);
     }
 
     public Quaternion GetRotation()
     {
         return Quaternion.Euler(currentY, currentX, 0);
     }
-
     public void SmoothPosition(Vector3 desiredPosition)
     {
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothTime);
@@ -92,7 +111,7 @@ public class ThirdPersonCamera : MonoBehaviour
         transform.LookAt(target);
     }
 
-    public void HandleCollision(ref Vector3 desiredPosition)
+    public Vector3 HandleCollision(Vector3 desiredPosition)
     {
         Vector3 direction = desiredPosition - player.position;
         RaycastHit hit;
@@ -112,6 +131,8 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             desiredPosition = Vector3.SmoothDamp(currentPosition, desiredPosition, ref collisionVelocity, smoothTime);
         }
+
+        return desiredPosition;
     }
 
     public Vector3 AimingRay(float maxAimDistance = 50f)

@@ -51,12 +51,11 @@ public class HunterAiming : MonoBehaviour
         if (crosshair != null)
         {
             crosshair.SetActive(isVisible);
-            Cursor.visible = false;
         }
     }
     private void UpdateAimPosition()
     {
-        if (camera != null && aimPosition != null && !isAiming)
+        if (camera != null && aimPosition != null)
         {
             aimPosition.position = player.TransformPoint(aimOffset);
             aimPosition.RotateAround(player.position, Vector3.up, camera.transform.eulerAngles.y);

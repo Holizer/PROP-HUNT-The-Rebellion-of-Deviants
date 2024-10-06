@@ -2,14 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICameraState
-{
-    void UpdateState();
-    void LateUpdateState();
-    void EnterState();
-    void ExitState();
-}
-public abstract class BaseCameraState : ICameraState
+public abstract class BaseCameraState
 {
     protected ThirdPersonCamera camera;
 

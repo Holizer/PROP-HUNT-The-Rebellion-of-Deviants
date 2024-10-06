@@ -1230,7 +1230,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879485013}
   m_Enabled: 0
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c0125376568702c4181a704b7c39ee06, type: 3}
   m_Controller: {fileID: 9100000, guid: 4193f36e5e258bf4e9d68b323e63d446, type: 2}
   m_CullingMode: 2
   m_UpdateMode: 0
@@ -2081,8 +2081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   distance: 3
-  sensitivityX: 200
-  sensitivityY: 100
+  sensitivity: 150
   smoothTime: 0.1
   invertY: 0
   yMinLimit: 5
@@ -2093,6 +2092,8 @@ MonoBehaviour:
   minCameraDistance: 0.4
   collisionHeightOffset: 1.9
   cameraRadius: 0.3
+  currentX: 0
+  currentY: 0
 --- !u!1 &1314125621
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,7 +2212,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359660215}
   m_Enabled: 0
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c0125376568702c4181a704b7c39ee06, type: 3}
   m_Controller: {fileID: 9100000, guid: 82c80f9c0446322409caa41d0074582f, type: 2}
   m_CullingMode: 2
   m_UpdateMode: 0
