@@ -9,8 +9,8 @@ public class AimingCameraState : BaseCameraState
 
     private float aimingSensitivity = 60f;
     private bool aimingInvertY = false;
-    private float aimingYMinLimit = -30f;
-    private float aimingYMaxLimit = 30f;
+    private float aimingYMinLimit = -20f;
+    private float aimingYMaxLimit = 20f;
 
     public AimingCameraState(ThirdPersonCamera camera, Transform aimPosition) : base(camera)
     {

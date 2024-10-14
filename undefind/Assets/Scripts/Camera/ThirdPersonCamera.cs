@@ -32,7 +32,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        currentState = new NormalCameraState(this);
+        SetState(new NormalCameraState(this));
     }
 
     public void SetState(BaseCameraState newState)
@@ -141,7 +141,6 @@ public class ThirdPersonCamera : MonoBehaviour
         Ray ray = new Ray(transform.position, direction);
         RaycastHit hit;
 
-        // Отладка луча
         Debug.DrawRay(transform.position, direction * maxAimDistance, Color.green);
 
         int playerLayer = LayerMask.GetMask("Player");

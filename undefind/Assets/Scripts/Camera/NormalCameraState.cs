@@ -8,7 +8,7 @@ public class NormalCameraState : BaseCameraState
 
     private float rotationSpeed = 0.09f;
     private float transformSpeed = 0.07f;
-    private float transitionDuration = 0.9f;
+    private float transitionDuration = 1f;
     private float transitionProgress = 0f;
     private AnimationCurve transitionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
@@ -41,9 +41,11 @@ public class NormalCameraState : BaseCameraState
     public override void LateUpdateState()
     {
         Quaternion rotation = camera.GetRotation();
-        Vector3 desiredPosition = player.position + rotation * new Vector3(0, 0, -camera.distance);
-        Quaternion desiredRotation = Quaternion.LookRotation(player.position + Vector3.up * 1.5f - camera.transform.position);
-        
+
+        Vector3 heightOffset = new Vector3(0, 1.2f, 0);
+        Vector3 desiredPosition = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
+        Quaternion desiredRotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
+
         if (isReturningToNormal)
         {
             transitionProgress += Time.deltaTime / transitionDuration;
@@ -51,19 +53,21 @@ public class NormalCameraState : BaseCameraState
 
             camera.transform.position = Vector3.Lerp(camera.transform.position, desiredPosition, curveValue * transformSpeed);
             camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, desiredRotation, curveValue * rotationSpeed);
-         
+
             if (transitionProgress >= 1f)
             {
-                camera.transform.position = desiredPosition;
                 camera.transform.rotation = desiredRotation;
+                camera.transform.position = desiredPosition;
                 isReturningToNormal = false;
             }
         }
         else
         {
             desiredPosition = camera.HandleCollision(desiredPosition);
+
             camera.transform.position = desiredPosition;
-            camera.transform.rotation = Quaternion.LookRotation(player.position + Vector3.up * 1.5f - camera.transform.position);
+            camera.transform.rotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
         }
     }
+
 }
