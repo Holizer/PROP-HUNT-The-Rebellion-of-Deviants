@@ -69,5 +69,4 @@ public class NormalCameraState : BaseCameraState
             camera.transform.rotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
         }
     }
-
 }

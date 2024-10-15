@@ -1,11 +1,15 @@
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Animations;
 using static UnityEngine.UI.Image;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform player;
+    public Rig animationRig;
+    public Transform aimTarget;
 
     [Header("Параметры камеры")]
     public float distance = 5.0f;
@@ -29,10 +33,12 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 collisionVelocity;
 
     private BaseCameraState currentState;
-
+    public MultiAimConstraint[] aimConstraints;
     void Start()
     {
         SetState(new NormalCameraState(this));
+        aimConstraints = animationRig.GetComponentsInChildren<MultiAimConstraint>();
+        //animationRig.gameObject.SetActive(false);
     }
 
     public void SetState(BaseCameraState newState)
@@ -44,7 +50,6 @@ public class ThirdPersonCamera : MonoBehaviour
         currentState = newState;
         currentState.EnterState();
     }
-
     void Update()
     {
         if (currentState != null)
@@ -56,7 +61,6 @@ public class ThirdPersonCamera : MonoBehaviour
             SetState(new NormalCameraState(this));
         }
     }
-
     void LateUpdate()
     {
         if (currentState != null)
@@ -68,21 +72,18 @@ public class ThirdPersonCamera : MonoBehaviour
             SetState(new NormalCameraState(this));
         }
     }
-
     public void UpdateRotation(float deltaX, float deltaY)
     {
         currentX += deltaX * sensitivity * Time.deltaTime;
         currentY += invertY ? deltaY : -deltaY;
         currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
     }
-
     public void UpdateRotation(float deltaX, float deltaY, float sensitivity, bool invertY, float yMinLimit, float yMaxLimit)
     {
         currentX += deltaX * sensitivity * Time.deltaTime;
         currentY += invertY ? deltaY : -deltaY;
         currentY = Mathf.Clamp(currentY, yMinLimit, yMaxLimit);
     }
-
     public void UpdateRotation(Vector3 target)
     {
         Vector3 direction = target - transform.position;
@@ -96,7 +97,6 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(currentY, currentX, 0);
     }
-
     public Quaternion GetRotation()
     {
         return Quaternion.Euler(currentY, currentX, 0);
@@ -105,12 +105,10 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothTime);
     }
-
     public void LookAt(Vector3 target)
     {
         transform.LookAt(target);
     }
-
     public Vector3 HandleCollision(Vector3 desiredPosition)
     {
         Vector3 direction = desiredPosition - player.position;
@@ -134,7 +132,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
         return desiredPosition;
     }
-
     public Vector3 AimingRay(float maxAimDistance = 50f)
     {
         Vector3 direction = transform.forward;
@@ -143,12 +140,16 @@ public class ThirdPersonCamera : MonoBehaviour
 
         Debug.DrawRay(transform.position, direction * maxAimDistance, Color.green);
 
-        int playerLayer = LayerMask.GetMask("Player");
-        if (Physics.Raycast(ray, out hit, maxAimDistance, ~playerLayer))
+        int aimTargetLayerMask = LayerMask.GetMask("AimTarget");
+        int playerLayerMask = LayerMask.GetMask("Player");
+        int combinedLayerMask = ~(aimTargetLayerMask | playerLayerMask);
+        if (Physics.Raycast(ray, out hit, maxAimDistance, combinedLayerMask))
         {
             return hit.point;
         }
-
-        return transform.position + direction * maxAimDistance;
+        else
+        {
+            return transform.position + direction * maxAimDistance;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class PlayerManager : MonoBehaviour
 
     private GameObject currentPlayer;
     private GameObject currentPlayerModel;
-
     void Start()
     {
         PlayerRole selectedRole = ChooseRandomRole();
@@ -145,7 +145,17 @@ public class PlayerManager : MonoBehaviour
         thirdPersonCamera.player = currentPlayer.transform;
         thirdPersonCamera.enabled = true;
 
-        Transform aimPosition = currentPlayer.transform.Find("AimPosition");
+        Transform rigTransform = currentPlayerModel.transform.Find("Rig");
+        if (rigTransform != null)
+        {
+            Rig rigComponent = rigTransform.GetComponent<Rig>();
+            if (rigComponent != null)
+            {
+                thirdPersonCamera.GetComponent<ThirdPersonCamera>().animationRig = rigComponent;
+            }
+        }
+
+            Transform aimPosition = currentPlayer.transform.Find("AimPosition");
         if (aimPosition != null)
         {
             HunterAiming hunterAiming = aimPosition.GetComponent<HunterAiming>();

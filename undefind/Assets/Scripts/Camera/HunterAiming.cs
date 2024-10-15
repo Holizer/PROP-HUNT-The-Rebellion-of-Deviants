@@ -14,6 +14,11 @@ public class HunterAiming : MonoBehaviour
 
     public bool isAiming = false;
 
+    private void Start()
+    {
+        crosshair.SetActive(false);
+    }
+
     private void Update()
     {
         HandleAimingInput();
