@@ -32,13 +32,12 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 currentVelocity;
     private Vector3 collisionVelocity;
 
-    private BaseCameraState currentState;
+    public BaseCameraState currentState { get; private set; }
     public MultiAimConstraint[] aimConstraints;
     void Start()
     {
         SetState(new NormalCameraState(this));
         aimConstraints = animationRig.GetComponentsInChildren<MultiAimConstraint>();
-        //animationRig.gameObject.SetActive(false);
     }
 
     public void SetState(BaseCameraState newState)
@@ -141,15 +140,21 @@ public class ThirdPersonCamera : MonoBehaviour
         Debug.DrawRay(transform.position, direction * maxAimDistance, Color.green);
 
         int aimTargetLayerMask = LayerMask.GetMask("AimTarget");
-        int playerLayerMask = LayerMask.GetMask("Player");
-        int combinedLayerMask = ~(aimTargetLayerMask | playerLayerMask);
-        if (Physics.Raycast(ray, out hit, maxAimDistance, combinedLayerMask))
+        Vector3 targetPoint;
+        if (Physics.Raycast(ray, out hit, maxAimDistance, aimTargetLayerMask))
         {
-            return hit.point;
+            targetPoint = hit.point;
         }
         else
         {
-            return transform.position + direction * maxAimDistance;
+            targetPoint = transform.position + direction * maxAimDistance;
         }
+
+        if (aimTarget != null)
+        {
+            aimTarget.position = targetPoint;
+        }
+
+        return targetPoint;
     }
 }

@@ -16,12 +16,10 @@ public class PlayerManager : MonoBehaviour
         Vector3 spawnPosition = GetSpawnPosition();
         SpawnPlayer(PlayerRole.Hunter, spawnPosition);
     }
-
     private PlayerRole ChooseRandomRole()
     {
         return (PlayerRole)Random.Range(0, System.Enum.GetValues(typeof(PlayerRole)).Length);
     }
-
     private void SpawnPlayer(PlayerRole role, Vector3 spawnPosition)
     {
         currentPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
@@ -47,7 +45,6 @@ public class PlayerManager : MonoBehaviour
         playerPrefab.SetActive(false);
         playerPrefab = null;
     }
-
     private GameObject InstantiatePlayerModel(PlayerRole role, Transform parent)
     {
         GameObject modelPrefab = role == PlayerRole.Hunter ? hunterModelPrefab : hiderModelPrefab;
@@ -58,7 +55,6 @@ public class PlayerManager : MonoBehaviour
 
         return model;
     }
-
     private void InitializePlayerScript(PlayerRole role)
     {
         Player playerScript = currentPlayer.GetComponent<Player>();
@@ -155,7 +151,14 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-            Transform aimPosition = currentPlayer.transform.Find("AimPosition");
+        HunterShoot hunterShoot = model.GetComponent<HunterShoot>();
+        if (hunterShoot != null)
+        {
+            hunterShoot.camera = thirdPersonCamera;
+            hunterShoot.enabled = true;
+        }
+
+        Transform aimPosition = currentPlayer.transform.Find("AimPosition");
         if (aimPosition != null)
         {
             HunterAiming hunterAiming = aimPosition.GetComponent<HunterAiming>();
