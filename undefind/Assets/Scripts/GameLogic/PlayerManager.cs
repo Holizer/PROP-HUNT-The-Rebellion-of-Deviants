@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject hunterModelPrefab;
     public GameObject hiderModelPrefab;
 
+    public GameObject spawnArea;
+
     private GameObject currentPlayer;
     private GameObject currentPlayerModel;
     void Start()
@@ -182,7 +184,11 @@ public class PlayerManager : MonoBehaviour
 
     private Vector3 GetSpawnPosition()
     {
-        return new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+        Bounds bounds = spawnArea.GetComponent<BoxCollider>().bounds;
+        float x = Random.Range(bounds.min.x, bounds.max.x);
+        float y = Random.Range(bounds.min.y, bounds.max.y);
+        float z = Random.Range(bounds.min.z, bounds.max.z);
+        return new Vector3(x, y, z);
     }
 
     // Метод для вызова при выборе роли через UI или другой механизм

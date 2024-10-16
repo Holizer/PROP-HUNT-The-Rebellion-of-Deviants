@@ -20,7 +20,8 @@ public class AimingCameraState : BaseCameraState
     }
     public override void EnterState()
     {
-        hasReachedTarget = false;
+        //hasReachedTarget = false;
+        hasReachedTarget = true;
 
         camera.animationRig.weight = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -50,20 +51,20 @@ public class AimingCameraState : BaseCameraState
         Vector3 targetPosition = aimPosition.position;
         camera.SmoothPosition(Vector3.SmoothDamp(camera.transform.position, targetPosition, ref currentVelocity, smoothTime));
 
-        if(!hasReachedTarget)
-        {
-            if (Vector3.Distance(camera.transform.position, targetPosition) < 0.01f)
-            {
-                Vector3 targetAimingPoint = camera.AimingRay();
-                camera.LookAt(targetAimingPoint);
-                hasReachedTarget = true;
-            }
-        }
-        else
-        {
+        //if(!hasReachedTarget)
+        //{
+        //    if (Vector3.Distance(camera.transform.position, targetPosition) < 0.01f)
+        //    {
+        //        Vector3 targetAimingPoint = camera.AimingRay();
+        //        camera.LookAt(targetAimingPoint);
+        //        hasReachedTarget = true;
+        //    }
+        //}
+        //else
+        //{
             Vector3 targetAimingPoint = camera.AimingRay();
             camera.LookAt(targetAimingPoint);
-        }
+        //}
 
         camera.SetRotation();
     }
