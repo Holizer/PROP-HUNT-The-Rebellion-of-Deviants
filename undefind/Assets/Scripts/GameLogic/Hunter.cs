@@ -1,26 +1,106 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Hunter : Player
 {
-    public GameObject hunterModel;
-
-    public void Initialize(GameObject model)
+    public override void Initialize(GameObject player, GameObject model, PlayerRole role = PlayerRole.Hunter)
     {
-        Role = PlayerRole.Hunter;
-        if (model != null)
+        base.Initialize(player, model, PlayerRole.Hunter);
+        AddAndConfigureComponents(player);
+    }
+
+    private void AddAndConfigureComponents(GameObject player)
+    {
+        AddMovementComponent(player);
+        ConfigureComponents(player, playerModel);
+    }
+
+    private void AddMovementComponent(GameObject player)
+    {
+        if (!player.TryGetComponent(out CharacterController characterController))
         {
-            hunterModel = model;
-            hunterModel.SetActive(true);
-            Debug.Log("Hunter проинциализирован!");
+            characterController = player.AddComponent<CharacterController>();
         }
-        else
+
+        if (!player.TryGetComponent(out HunterMovement hunterMovement))
         {
-            Debug.LogError("hunterModel не назначен!");
+            hunterMovement = player.AddComponent<HunterMovement>();
+            hunterMovement.controller = characterController;
+            Transform cameraRig = player.transform.Find("CameraRig");
+            if (cameraRig == null)
+            {
+                Debug.LogError("CameraRig not found!");
+                return;
+            }
+            hunterMovement.cameraTransform = cameraRig;
         }
     }
 
-    public void Shoot()
+    private void ConfigureComponents(GameObject player, GameObject model)
     {
-        Debug.Log("Hunter shooting!");
+        ConfigureAnimator(playerModel);
+        ConfigureCamera(player, playerModel);
+        ConfigureAiming(player, playerModel);
+    }
+
+    private void ConfigureAnimator(GameObject model)
+    {
+        if (model.TryGetComponent(out Animator animator))
+        {
+            animator.enabled = true;
+        }
+
+        if (model.TryGetComponent(out HunterAnimation hunterAnimation))
+        {
+            hunterAnimation.enabled = true;
+        }
+    }
+
+    private void ConfigureCamera(GameObject player, GameObject model)
+    {
+        Transform cameraRig = player.transform.Find("CameraRig");
+        if (cameraRig == null)
+        {
+            Debug.LogError("CameraRig not found!");
+            return;
+        }
+
+        ThirdPersonCamera camera = cameraRig.GetComponent<ThirdPersonCamera>();
+        if (camera == null)
+        {
+            Debug.LogError("ThirdPersonCamera not found!");
+            return;
+        }
+
+        camera.player = player.transform;
+        camera.enabled = true;
+
+        Transform rigTransform = model.transform.Find("Rig");
+        if (rigTransform != null && rigTransform.TryGetComponent(out Rig rigComponent))
+        {
+            camera.animationRig = rigComponent;
+        }
+    }
+
+    private void ConfigureAiming(GameObject player, GameObject model)
+    {
+        Transform aimPosition = player.transform.Find("AimPosition");
+        if (aimPosition == null)
+        {
+            Debug.LogError("AimPosition not found!");
+            return;
+        }
+
+        if (aimPosition.TryGetComponent(out HunterAiming hunterAiming))
+        {
+            hunterAiming.player = player.transform;
+            hunterAiming.camera = model.GetComponent<ThirdPersonCamera>();
+            hunterAiming.aimPosition = aimPosition;
+            hunterAiming.enabled = true;
+        }
+        else
+        {
+            Debug.LogError("HunterAiming not found on AimPosition!");
+        }
     }
 }

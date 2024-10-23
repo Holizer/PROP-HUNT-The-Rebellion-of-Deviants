@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class HunterMovement : MonoBehaviour
@@ -6,6 +7,7 @@ public class HunterMovement : MonoBehaviour
     public CharacterController controller;
     public Transform cameraTransform;
     private Animator animator;
+    PhotonView view;
 
     [Header("Настройки движения")]
     public float speed = 3f;
@@ -20,6 +22,7 @@ public class HunterMovement : MonoBehaviour
 
     void Start()
     {
+        view = GetComponent<PhotonView>();
         if (animator == null)
         {
             animator = GetComponent<Animator>();
@@ -31,6 +34,11 @@ public class HunterMovement : MonoBehaviour
     void Update()
     {
         HandleMovement();
+
+        //if (view.IsMine)
+        //{
+        //    HandleMovement();
+        //}
     }
 
     void HandleMovement()

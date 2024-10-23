@@ -2,20 +2,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool IsLocalPlayer { get; protected set; }
-
     public PlayerRole Role { get; protected set; }
 
-    void Awake()
-    {
-    }
+    public GameObject playerModel { get; protected set; }
 
-    public void SetLocalPlayer(bool isLocal)
+    public virtual void Initialize(GameObject player, GameObject model, PlayerRole Role)
     {
-        IsLocalPlayer = isLocal;
-    }
-    public void SetRole(PlayerRole playerRole)
-    {
-        Role = playerRole;
+        this.Role = Role;
+        
+        if (model == null)
+        {
+            Debug.LogError($"{Role} model is not assigned!");
+            return;
+        }
+        playerModel = model;
+        playerModel.SetActive(true);
+        Debug.Log($"{Role} initialized!");
     }
 }
