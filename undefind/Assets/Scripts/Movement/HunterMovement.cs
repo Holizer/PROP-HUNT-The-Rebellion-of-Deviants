@@ -33,12 +33,10 @@ public class HunterMovement : MonoBehaviour
 
     void Update()
     {
-        HandleMovement();
-
-        //if (view.IsMine)
-        //{
-        //    HandleMovement();
-        //}
+        if (view.IsMine)
+        {
+            HandleMovement();
+        }
     }
 
     void HandleMovement()

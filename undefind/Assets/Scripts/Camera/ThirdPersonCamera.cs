@@ -9,7 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform player;
     public Rig animationRig;
-    public Transform aimTarget;
+    public Transform aimPosition;
 
     [Header("Параметры камеры")]
     public float distance = 5.0f;
@@ -150,9 +150,9 @@ public class ThirdPersonCamera : MonoBehaviour
             targetPoint = transform.position + direction * maxAimDistance;
         }
 
-        if (aimTarget != null)
+        if (aimPosition != null)
         {
-            aimTarget.position = targetPoint;
+            aimPosition.position = targetPoint;
         }
 
         return targetPoint;

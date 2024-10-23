@@ -42,20 +42,22 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        base.OnJoinedRoom();
         Debug.Log("Joined Room Successfully!");
         PhotonNetwork.LoadLevel(Scene.GameScene.ToString());
     }
 
-    // Optional: Handling failure of joining room
-    public override void OnJoinRoomFailed(short returnCode, string message)
+    public override void OnJoinedLobby()
     {
-        Debug.LogError($"Failed to join room: {message}");
+        base.OnJoinedLobby();
     }
-
-    // This gets called when the player successfully connects to Photon
     public override void OnConnectedToMaster()
     {
+        base.OnConnectedToMaster();
+
         Debug.Log("Connected to Photon Master Server.");
+        
+        PhotonNetwork.JoinLobby();
     }
 
     private void Start()

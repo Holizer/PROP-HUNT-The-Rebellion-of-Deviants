@@ -5,7 +5,7 @@ using UnityEngine;
 public class HunterAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
-    private Animator animator;
+    public Animator animator;
 
     [Header("Переменные скорости")]
     private float velocity = 0.0f;
@@ -26,7 +26,6 @@ public class HunterAnimation : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         VelocityHash = Animator.StringToHash("Velocity");
         PistolVelocityHash = Animator.StringToHash("PistolVelocity");
         IsAimingHash = Animator.StringToHash("isAiming"); 

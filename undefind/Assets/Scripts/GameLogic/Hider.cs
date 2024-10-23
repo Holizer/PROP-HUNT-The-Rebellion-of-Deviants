@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
-public class Hider : Player
+public class Hider : PlayerSetup
 {
     public GameObject hiderModel;
 

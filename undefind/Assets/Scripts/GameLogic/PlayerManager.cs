@@ -5,14 +5,11 @@ using UnityEngine.Animations.Rigging;
 public class PlayerManager : MonoBehaviour
 {
     [Header("Префабы")]
-    public GameObject playerPrefab;
-    public GameObject hunterModelPrefab;
-    public GameObject hiderModelPrefab;
+    public GameObject hunterPrefab;
+    //public GameObject hiderPrefab;
 
     public GameObject spawnArea;
-
     private GameObject currentPlayer;
-    private GameObject currentPlayerModel;
     void Start()
     {
         PlayerRole selectedRole = ChooseRandomRole();
@@ -25,42 +22,47 @@ public class PlayerManager : MonoBehaviour
     }
     private void SpawnPlayer(PlayerRole role, Vector3 spawnPosition)
     {
-        //currentPlayer = PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition, Quaternion.identity);
-        currentPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        currentPlayerModel = InstantiatePlayerModel(role, currentPlayer.transform);
-        InitializePlayerRoleScripts(role);
+        currentPlayer = PhotonNetwork.Instantiate(hunterPrefab.name, spawnPosition, Quaternion.identity);
+        //currentPlayerModel = InstantiatePlayerModel(role, currentPlayer.transform);
+        currentPlayer.GetComponent<PlayerSetup>().IsLocalPlayer();
+        //InitializePlayerRoleScripts(role);
     }
-    private GameObject InstantiatePlayerModel(PlayerRole role, Transform parent)
-    {
-        GameObject modelPrefab = role == PlayerRole.Hunter ? hunterModelPrefab : hiderModelPrefab;
-        GameObject model = Instantiate(modelPrefab, parent);
+    //private GameObject InstantiatePlayerModel(PlayerRole role, Transform parent)
+    //{
+    //    GameObject modelPrefab = role == PlayerRole.Hunter ? hunterModelPrefab : hiderModelPrefab;
+    //    GameObject model = Instantiate(modelPrefab, parent);
 
-        model.transform.localPosition = Vector3.zero;
-        model.transform.localRotation = Quaternion.identity;
+    //    model.transform.localPosition = Vector3.zero;
+    //    model.transform.localRotation = Quaternion.identity;
 
-        return model;
-    }
-    private void InitializePlayerRoleScripts(PlayerRole role)
-    {
-        switch (role)
-        {
-            case PlayerRole.Hunter:
-            {
-                Hunter hunter = currentPlayer.AddComponent<Hunter>();
-                if      (hunter != null) hunter.Initialize(currentPlayer, currentPlayerModel);
-                else    Debug.LogError("Не удалось создать Hunter компонент для игрока!");
-                break;
-            }
+    //    return model;
+    //}
+    //private void InitializePlayerRoleScripts(PlayerRole role)
+    //{
+    //    Player playerScript = currentPlayer.GetComponent<Player>();
+    //    if (playerScript != null)
+    //    {
+    //        playerScript.SetRole(role);
+    //        switch (role)
+    //        {
+    //            case PlayerRole.Hunter:
+    //            {
+    //                Hunter hunter = currentPlayer.AddComponent<Hunter>();
+    //                if      (hunter != null) hunter.Initialize(currentPlayer, currentPlayerModel);
+    //                else    Debug.LogError("Не удалось создать Hunter компонент для игрока!");
+    //                break;
+    //            }
 
-            case PlayerRole.Hider:
-            {
-                Hider hider = currentPlayer.AddComponent<Hider>();
-                if      (hider != null) hider.Initialize(currentPlayer, currentPlayerModel);
-                else    Debug.LogError("Не удалось создать Hider компонент для игрока!");
-                break;
-            }
-        }
-    }
+    //            case PlayerRole.Hider:
+    //            {
+    //                Hider hider = currentPlayer.AddComponent<Hider>();
+    //                if      (hider != null) hider.Initialize(currentPlayer, currentPlayerModel);
+    //                else    Debug.LogError("Не удалось создать Hider компонент для игрока!");
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
     private Vector3 GetSpawnPosition()
     {
         Bounds bounds = spawnArea.GetComponent<BoxCollider>().bounds;

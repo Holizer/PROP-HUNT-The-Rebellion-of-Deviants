@@ -41,32 +41,34 @@ public class NormalCameraState : BaseCameraState
     public override void LateUpdateState()
     {
         Quaternion rotation = camera.GetRotation();
-
         Vector3 heightOffset = new Vector3(0, 1.2f, 0);
-        Vector3 desiredPosition = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
-        Quaternion desiredRotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
+        Vector3 targetPosition = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
+        Quaternion targetRotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
 
         if (isReturningToNormal)
         {
-            transitionProgress += Time.deltaTime / transitionDuration;
-            float curveValue = transitionCurve.Evaluate(transitionProgress);
-
-            camera.transform.position = Vector3.Lerp(camera.transform.position, desiredPosition, curveValue * transformSpeed);
-            camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, desiredRotation, curveValue * rotationSpeed);
-
-            if (transitionProgress >= 1f)
-            {
-                camera.transform.rotation = desiredRotation;
-                camera.transform.position = desiredPosition;
-                isReturningToNormal = false;
-            }
+            PerformTransitionToNormal(targetPosition, targetRotation);
         }
         else
         {
-            desiredPosition = camera.HandleCollision(desiredPosition);
-
-            camera.transform.position = desiredPosition;
+            //Vector3 desiredPosition = camera.HandleCollision(targetPosition);
+            camera.transform.position = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
             camera.transform.rotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
+        }
+    }
+    private void PerformTransitionToNormal(Vector3 desiredPosition, Quaternion desiredRotation)
+    {
+        transitionProgress += Time.deltaTime / transitionDuration;
+        float curveValue = transitionCurve.Evaluate(transitionProgress);
+
+        camera.transform.position = Vector3.Lerp(camera.transform.position, desiredPosition, curveValue * transformSpeed);
+        camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, desiredRotation, curveValue * rotationSpeed);
+
+        if (transitionProgress >= 1f)
+        {
+            camera.transform.position = desiredPosition;
+            camera.transform.rotation = desiredRotation;
+            isReturningToNormal = false;
         }
     }
 }
