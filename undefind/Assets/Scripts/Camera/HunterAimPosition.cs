@@ -1,17 +1,23 @@
+using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
-public class HunterAiming : MonoBehaviour
+public class HunterAimPosition : MonoBehaviour
 {
     [Header("Компоненты")]
     public ThirdPersonCamera camera;
+
+    public Rig animationRig;
+    public RigController rigController;
+    public RigBuilder rigBuilder;
+    public GameObject aimTarget;
+
     public Transform player;
     public GameObject crosshair;
     public Transform aimPosition;
 
     [Header("Настройки")]
-    public float aimDistance = 1f;
     public Vector3 aimOffset = new Vector3(0, 1, 0);
-
     public bool isAiming = false;
 
     private void Start()
@@ -40,7 +46,7 @@ public class HunterAiming : MonoBehaviour
     private void EnterAimingMode()
     {
         isAiming = true;
-        camera.SetState(new AimingCameraState(camera, aimPosition));
+        camera.SetState(new AimingCameraState(camera, aimPosition, rigController, rigBuilder, animationRig, aimTarget));
         SetCrosshairVisibility(true);
     }
 
@@ -58,15 +64,13 @@ public class HunterAiming : MonoBehaviour
             crosshair.SetActive(isVisible);
         }
     }
+
     private void UpdateAimPosition()
     {
         if (camera != null && aimPosition != null)
         {
             aimPosition.position = player.TransformPoint(aimOffset);
-            aimPosition.RotateAround(player.position, Vector3.up, camera.transform.eulerAngles.y);
-
-            aimPosition.position -= camera.transform.forward * aimDistance;
-            aimPosition.rotation = camera.transform.rotation;
+            aimPosition.rotation = Quaternion.LookRotation(camera.transform.forward, Vector3.up);
         }
     }
 }

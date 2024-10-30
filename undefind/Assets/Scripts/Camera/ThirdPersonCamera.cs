@@ -8,7 +8,7 @@ using static UnityEngine.UI.Image;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform player;
-    public Rig animationRig;
+    //public Rig animationRig;
     public Transform aimPosition;
 
     [Header("Параметры камеры")]
@@ -18,8 +18,8 @@ public class ThirdPersonCamera : MonoBehaviour
     public bool invertY = false;
 
     [Header("Лимиты вращения")]
-    public float yMinLimit = 10f;
-    public float yMaxLimit = 70f;
+    public float yMinLimit = -20f;
+    public float yMaxLimit = 20f;
 
     [Header("Обработка коллизий")]
     public LayerMask collisionMask;
@@ -33,11 +33,9 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 collisionVelocity;
 
     public BaseCameraState currentState { get; private set; }
-    public MultiAimConstraint[] aimConstraints;
     void Start()
     {
         SetState(new NormalCameraState(this));
-        aimConstraints = animationRig.GetComponentsInChildren<MultiAimConstraint>();
     }
 
     public void SetState(BaseCameraState newState)

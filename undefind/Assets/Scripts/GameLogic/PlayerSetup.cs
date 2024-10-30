@@ -8,7 +8,7 @@ public class PlayerSetup : MonoBehaviour
 
     public HunterShoot hunterShoot;
     
-    public HunterAiming hunterAiming;
+    public HunterAimPosition hunterAimPosition;
 
     public GameObject camera;
     public PlayerRole Role { get; protected set; }
@@ -20,7 +20,7 @@ public class PlayerSetup : MonoBehaviour
         hunterAnimation.enabled = true;
         camera.SetActive(true);
         hunterShoot.enabled = true;
-        hunterAiming.enabled = true;
+        hunterAimPosition.enabled = true;
     }
     //public GameObject playerModel { get; protected set; }
 

@@ -1,41 +1,48 @@
+using Photon.Realtime;
+using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class AimingCameraState : BaseCameraState
 {
     private Transform aimPosition;
-    private Vector3 currentVelocity = Vector3.zero;
-    private float smoothTime = 0.01f;
 
+    // Обработка анимации
+    private Rig animationRig;
+    private RigController rigController;
+    private RigBuilder rigBuilder;
+    private GameObject aimTarget;
+
+    // Скорость перехода в камеры в aimPosition
+    private float smoothTime = 0.3f;
+    
     private float aimingSensitivity = 60f;
     private bool aimingInvertY = false;
     private float aimingYMinLimit = -20f;
     private float aimingYMaxLimit = 20f;
 
-    public bool hasReachedTarget { get; private set; } = false;
-    public AimingCameraState(ThirdPersonCamera camera, Transform aimPosition) : base(camera)
+    public AimingCameraState(ThirdPersonCamera camera, Transform aimPosition, RigController rigController, RigBuilder rigBuilder, Rig animationRig, GameObject aimTarget) : base(camera)
     {
         this.aimPosition = aimPosition;
+        this.rigController = rigController;
+        this.rigBuilder = rigBuilder;
+        this.animationRig = animationRig;
+        this.aimTarget = aimTarget;
+
         this.aimingInvertY = camera.invertY;
+        this.animationRig = animationRig;
     }
     public override void EnterState()
     {
-        //hasReachedTarget = false;
-        hasReachedTarget = true;
-
-        camera.animationRig.weight = 1;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        Vector3 targetAimingPoint = camera.AimingRay();
-        SetNewCameraAngles(targetAimingPoint);
+        animationRig.weight = 1;
+        rigBuilder.Build();
+        SetCursorState();
     }
 
     public override void ExitState()
     {
-        camera.animationRig.weight = 0;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        animationRig.weight = 0;
+        SetCursorState();
     }
 
     public override void UpdateState()
@@ -48,35 +55,26 @@ public class AimingCameraState : BaseCameraState
 
     public override void LateUpdateState()
     {
-        Vector3 targetPosition = aimPosition.position;
-        camera.SmoothPosition(Vector3.SmoothDamp(camera.transform.position, targetPosition, ref currentVelocity, smoothTime));
+        SmoothMoveToAimPosition();
 
-        //if(!hasReachedTarget)
-        //{
-        //    if (Vector3.Distance(camera.transform.position, targetPosition) < 0.01f)
-        //    {
-        //        Vector3 targetAimingPoint = camera.AimingRay();
-        //        camera.LookAt(targetAimingPoint);
-        //        hasReachedTarget = true;
-        //    }
-        //}
-        //else
-        //{
-            Vector3 targetAimingPoint = camera.AimingRay();
-            camera.LookAt(targetAimingPoint);
-        //}
-
+        Vector3 targetAimingPoint = camera.AimingRay();
+            
+        aimTarget.transform.position = targetAimingPoint;
+        rigController.SetAimTargets(aimTarget.transform);
+            
+        camera.LookAt(targetAimingPoint);
         camera.SetRotation();
     }
 
-
-    private void SetNewCameraAngles(Vector3 targetAimingPoint)
+    private void SmoothMoveToAimPosition()
     {
-        Vector3 direction = targetAimingPoint - camera.transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        Vector3 targetPosition = aimPosition.position;
+        camera.transform.position = Vector3.Lerp(camera.transform.position, targetPosition, Time.deltaTime / smoothTime);
+    }
 
-        Vector3 euler = lookRotation.eulerAngles;
-        camera.currentX = euler.y;
-        camera.currentY = euler.x;
+    private void SetCursorState()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

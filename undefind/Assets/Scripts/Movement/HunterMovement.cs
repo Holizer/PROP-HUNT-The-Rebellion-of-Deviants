@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class HunterMovement : MonoBehaviour
@@ -6,19 +7,27 @@ public class HunterMovement : MonoBehaviour
     [Header("Компоненты")]
     public CharacterController controller;
     public Transform cameraTransform;
-    private Animator animator;
-    PhotonView view;
+    public PhotonView view;
+
+    public bool isCameraTransition = false;
 
     [Header("Настройки движения")]
     public float speed = 3f;
+
+    [Tooltip("Реальное ускорение игркока")]
     public float runSpeedMultiplier = 1.5f;
+
+    [Tooltip("Ускорение анимации игрока при зажатии SHIFT")]
     public float accelerationTime = 0.2f;
+
+    [Tooltip("Время поворота игрока")]
     public float turnSmoothTime = 0.1f;
 
-    private float turnSmoothVelocity;
-    private float currentSpeed;
-    private float targetSpeed;
-    private float speedVelocity;
+    [SerializeField] private Animator animator;
+    [SerializeField] private float turnSmoothVelocity;
+    [SerializeField] private float currentSpeed;
+    [SerializeField] private float targetSpeed;
+    [SerializeField] private float speedVelocity;
 
     void Start()
     {
@@ -33,7 +42,7 @@ public class HunterMovement : MonoBehaviour
 
     void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && !isCameraTransition)
         {
             HandleMovement();
         }

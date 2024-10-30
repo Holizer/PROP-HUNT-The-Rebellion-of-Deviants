@@ -22,11 +22,7 @@ public class HunterShoot : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && camera.currentState is AimingCameraState)
         {
-            AimingCameraState aimingCameraState = (AimingCameraState)camera.currentState;
-            if (aimingCameraState.hasReachedTarget)
-            {
-                Shoot();
-            }
+            Shoot();
         }
     }
 
@@ -41,7 +37,7 @@ public class HunterShoot : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, range))
         {
-            Debug.Log("Hit " + hit.transform.name);
+            //Debug.Log("Hit " + hit.transform.name);
 
             // Применение силы к объекту с Rigidbody
             if (hit.rigidbody != null)

@@ -6,11 +6,8 @@ public class NormalCameraState : BaseCameraState
     protected Transform player;
     private bool isReturningToNormal = false;
 
-    private float rotationSpeed = 0.09f;
-    private float transformSpeed = 0.07f;
-    private float transitionDuration = 1f;
+    private float transitionDuration = 15f;
     private float transitionProgress = 0f;
-    private AnimationCurve transitionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     public NormalCameraState(ThirdPersonCamera camera) : base(camera)
     {
@@ -41,34 +38,49 @@ public class NormalCameraState : BaseCameraState
     public override void LateUpdateState()
     {
         Quaternion rotation = camera.GetRotation();
-        Vector3 heightOffset = new Vector3(0, 1.2f, 0);
-        Vector3 targetPosition = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
+        Vector3 heightOffset = new Vector3(0, 1.5f, 0);
+        Vector3 standardOffset = new Vector3(0, 0, -camera.distance);
+
+        Vector3 targetPosition = player.position + heightOffset + rotation * standardOffset;
         Quaternion targetRotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
 
         if (isReturningToNormal)
         {
+            if (player.GetComponent<HunterMovement>() != null)
+            {
+                player.GetComponent<HunterMovement>().isCameraTransition = true;
+            }
             PerformTransitionToNormal(targetPosition, targetRotation);
         }
         else
         {
-            //Vector3 desiredPosition = camera.HandleCollision(targetPosition);
-            camera.transform.position = player.position + heightOffset + rotation * new Vector3(0, 0, -camera.distance);
+            // Позиция камеры будет рассчитана относительно игрока
+            camera.transform.position = player.position + heightOffset + rotation * standardOffset;
             camera.transform.rotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
         }
     }
     private void PerformTransitionToNormal(Vector3 desiredPosition, Quaternion desiredRotation)
     {
         transitionProgress += Time.deltaTime / transitionDuration;
-        float curveValue = transitionCurve.Evaluate(transitionProgress);
+        transitionProgress = Mathf.Clamp01(transitionProgress);
+        float linearValue = transitionProgress;
 
-        camera.transform.position = Vector3.Lerp(camera.transform.position, desiredPosition, curveValue * transformSpeed);
-        camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, desiredRotation, curveValue * rotationSpeed);
+        camera.transform.position = Vector3.Lerp(camera.transform.position, desiredPosition, linearValue);
+        camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, desiredRotation, linearValue);
 
-        if (transitionProgress >= 1f)
+        if (Vector3.Distance(camera.transform.position, desiredPosition) < 0.01f &&
+            Quaternion.Angle(camera.transform.rotation, desiredRotation) < 1f)
         {
             camera.transform.position = desiredPosition;
             camera.transform.rotation = desiredRotation;
+
+            transitionProgress = 0f;
             isReturningToNormal = false;
+
+            if (player.GetComponent<HunterMovement>() != null)
+            {
+                player.GetComponent<HunterMovement>().isCameraTransition = false;
+            }
         }
     }
 }
