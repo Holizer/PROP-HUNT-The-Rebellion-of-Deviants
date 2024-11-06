@@ -428,14 +428,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142612491348697007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17447253, y: -0, z: -0, w: 0.98466206}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 1.862, z: -0.561}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2468999986205656969}
   m_Father: {fileID: 6969640011097138052}
-  m_LocalEulerAnglesHint: {x: 20.096, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!114 &5922669943209037601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 6969640011097138052}
-  aimPosition: {fileID: 3649702072034597277}
   distance: 3
   sensitivity: 150
   smoothTime: 0.15
@@ -967,7 +966,7 @@ Transform:
   m_GameObject: {fileID: 2348219761864684096}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalPosition: {x: 3.236296, y: 0, z: -10.458189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1021,7 +1020,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 5893957393095796282}
   - {fileID: 6222818621133152158}
@@ -1110,10 +1109,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 5017706173926649576}
   cameraTransform: {fileID: 7560620521855790929}
+  view: {fileID: 0}
+  isCameraTransition: 0
   speed: 3
   runSpeedMultiplier: 1.5
   accelerationTime: 0.2
   turnSmoothTime: 0.1
+  animator: {fileID: 1138271389500260327}
+  turnSmoothVelocity: 0
+  currentSpeed: 0
+  targetSpeed: 0
+  speedVelocity: 0
 --- !u!114 &527415787424605986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,11 +1150,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1138271389500260327}
+  view: {fileID: 0}
   acceleration: 0.3
-  deceleration: 0.8
-  runMultiplier: 3
+  deceleration: 0.6
+  runMultiplier: 4
   quickStopMultiplier: 4
-  pistolAcceleration: 0.5
+  pistolAcceleration: 0.8
   pistolDeceleration: 1
 --- !u!1 &2479475530449160993
 GameObject:

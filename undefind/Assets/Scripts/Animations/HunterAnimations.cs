@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class HunterAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
     public Animator animator;
+    [SerializeField] private PhotonView view;
 
     [Header("Переменные скорости")]
     private float velocity = 0.0f;
@@ -37,6 +39,11 @@ public class HunterAnimation : MonoBehaviour
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
         bool aimPressed = Input.GetMouseButton(1);
 
+        if (animator != null)
+        {
+            animator.SetBool("isAiming", aimPressed);
+        }
+
         if (aimPressed)
         {
             velocity = 0.0f; 
@@ -47,7 +54,6 @@ public class HunterAnimation : MonoBehaviour
         }
         else
         {
-            // Если не прицеливается, восстанавливаем обычное движение
             if (runPressed && forwardPressed && velocity < 1.0f)
             {
                 velocity += Time.deltaTime * acceleration * runMultiplier;
@@ -91,7 +97,6 @@ public class HunterAnimation : MonoBehaviour
             }
         }
 
-        // Установка значений в аниматор
         animator.SetFloat(VelocityHash, velocity);
         animator.SetFloat(PistolVelocityHash, pistolVelocity);
         animator.SetBool(IsAimingHash, aimPressed);

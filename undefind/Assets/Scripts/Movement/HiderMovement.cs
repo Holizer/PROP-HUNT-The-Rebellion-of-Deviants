@@ -1,3 +1,5 @@
+using Photon.Pun;
+using System;
 using UnityEngine;
 
 public class HiderMovement : MonoBehaviour
@@ -5,6 +7,7 @@ public class HiderMovement : MonoBehaviour
     [Header("Компоненты")]
     public CharacterController controller;
     public Transform cameraTransform;
+    [SerializeField] private PhotonView view;
 
     [Header("Настройки движения")]
     public float speed = 3f;
@@ -21,8 +24,18 @@ public class HiderMovement : MonoBehaviour
     {
         currentSpeed = speed;
         targetSpeed = speed;
+        view = GetComponent<PhotonView>();
     }
+    
     void Update()
+    {
+        if (view.IsMine)
+        {
+            HandleMovement();
+        }
+    }
+
+    void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");

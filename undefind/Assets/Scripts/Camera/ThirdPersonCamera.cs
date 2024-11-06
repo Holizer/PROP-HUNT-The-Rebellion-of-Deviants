@@ -8,8 +8,6 @@ using static UnityEngine.UI.Image;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public Transform player;
-    //public Rig animationRig;
-    public Transform aimPosition;
 
     [Header("Параметры камеры")]
     public float distance = 5.0f;
@@ -146,11 +144,6 @@ public class ThirdPersonCamera : MonoBehaviour
         else
         {
             targetPoint = transform.position + direction * maxAimDistance;
-        }
-
-        if (aimPosition != null)
-        {
-            aimPosition.position = targetPoint;
         }
 
         return targetPoint;

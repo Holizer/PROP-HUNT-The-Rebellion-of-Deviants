@@ -58,12 +58,24 @@ public class AimingCameraState : BaseCameraState
         SmoothMoveToAimPosition();
 
         Vector3 targetAimingPoint = camera.AimingRay();
-            
         aimTarget.transform.position = targetAimingPoint;
         rigController.SetAimTargets(aimTarget.transform);
             
         camera.LookAt(targetAimingPoint);
         camera.SetRotation();
+
+        //if (camera.IsAiming) // Предполагается, что у вас есть свойство IsAiming в камере
+        //{
+        //    Vector3 cameraForward = cameraTransform.forward;
+        //    cameraForward.y = 0f; // Игнорируем вертикальную составляющую
+        //    cameraForward.Normalize();
+
+        //    if (cameraForward != Vector3.zero)
+        //    {
+        //        float targetAngle = Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg;
+        //        transform.rotation = Quaternion.Euler(0f, targetAngle, 0f); // Мгновенный поворот
+        //    }
+        //}
     }
 
     private void SmoothMoveToAimPosition()
