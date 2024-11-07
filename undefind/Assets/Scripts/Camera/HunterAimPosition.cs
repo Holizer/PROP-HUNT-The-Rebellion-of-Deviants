@@ -17,7 +17,7 @@ public class HunterAimPosition : MonoBehaviour
     public Transform aimPosition;
 
     [Header("Настройки")]
-    public Vector3 aimOffset = new Vector3(0, 1, 0);
+    public Vector3 aimOffset = new Vector3(0.5f, 1.65f, 00.6f);
     public bool isAiming = false;
 
     private void Start()
@@ -65,12 +65,21 @@ public class HunterAimPosition : MonoBehaviour
         }
     }
 
+
     private void UpdateAimPosition()
     {
-        if (camera != null && aimPosition != null)
+        if (camera != null && aimPosition != null && player != null)
         {
-            aimPosition.position = player.TransformPoint(aimOffset);
-            aimPosition.rotation = Quaternion.LookRotation(camera.transform.forward, Vector3.up);
+            Vector3 cameraForward = camera.transform.forward;
+            cameraForward.y = 0f;
+            Vector3 cameraRight = camera.transform.right;
+            
+            Vector3 horizontalOffset = cameraForward * aimOffset.z + cameraRight * aimOffset.x;
+            Vector3 targetPosition = player.position + horizontalOffset;
+            targetPosition.y = player.position.y + aimOffset.y;
+
+            aimPosition.position = targetPosition;
+            aimPosition.LookAt(camera.GetLastAimPoint());
         }
     }
 }

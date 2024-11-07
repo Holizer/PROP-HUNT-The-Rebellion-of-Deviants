@@ -55,34 +55,21 @@ public class AimingCameraState : BaseCameraState
 
     public override void LateUpdateState()
     {
-        SmoothMoveToAimPosition();
-
-        Vector3 targetAimingPoint = camera.AimingRay();
+        Vector3 targetAimingPoint = camera.CalculateAimPoint();
         aimTarget.transform.position = targetAimingPoint;
         rigController.SetAimTargets(aimTarget.transform);
-            
-        camera.LookAt(targetAimingPoint);
+        SmoothMoveToAimPosition();
+
         camera.SetRotation();
-
-        //if (camera.IsAiming) // Предполагается, что у вас есть свойство IsAiming в камере
-        //{
-        //    Vector3 cameraForward = cameraTransform.forward;
-        //    cameraForward.y = 0f; // Игнорируем вертикальную составляющую
-        //    cameraForward.Normalize();
-
-        //    if (cameraForward != Vector3.zero)
-        //    {
-        //        float targetAngle = Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg;
-        //        transform.rotation = Quaternion.Euler(0f, targetAngle, 0f); // Мгновенный поворот
-        //    }
-        //}
     }
+
 
     private void SmoothMoveToAimPosition()
     {
         Vector3 targetPosition = aimPosition.position;
         camera.transform.position = Vector3.Lerp(camera.transform.position, targetPosition, Time.deltaTime / smoothTime);
     }
+
 
     private void SetCursorState()
     {

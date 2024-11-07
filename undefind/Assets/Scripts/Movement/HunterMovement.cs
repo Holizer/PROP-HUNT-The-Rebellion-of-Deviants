@@ -6,10 +6,10 @@ public class HunterMovement : MonoBehaviour
 {
     [Header("Компоненты")]
     public CharacterController controller;
+    public GameObject model;
     public Transform cameraTransform;
     [SerializeField] private PhotonView view;
-
-    public bool isCameraTransition = false;
+    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
 
     [Header("Настройки движения")]
     public float speed = 3f;
@@ -32,15 +32,33 @@ public class HunterMovement : MonoBehaviour
     void Start()
     {
         view = GetComponent<PhotonView>();
+        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
         currentSpeed = speed;
         targetSpeed = speed;
     }
 
     void Update()
     {
-        if (view.IsMine && !isCameraTransition)
+        if (view.IsMine)
         {
-            HandleMovement();
+            if (thirdPersonCamera.currentState is AimingCameraState)
+            {
+                HandleAimingRotation();
+            }
+            else if(!(thirdPersonCamera.currentState is NormalCameraState && NormalCameraState.isReturningToNormal == true))
+            {
+                HandleMovement();
+            }
+        }
+    }
+
+    void HandleRotation(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            model.transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
         }
     }
 
@@ -68,15 +86,18 @@ public class HunterMovement : MonoBehaviour
 
             Vector3 moveDirection = cameraForward * inputDirection.z + cameraRight * inputDirection.x;
 
-            if (moveDirection != Vector3.zero)
-            {
-                float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            HandleRotation(moveDirection); 
 
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-                controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
-            }
+            controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
         }
+    }
+
+    void HandleAimingRotation()
+    {
+        Vector3 aimTargetPoint = thirdPersonCamera.CalculateAimPoint();
+        Vector3 aimDirection = aimTargetPoint - model.transform.position;
+        aimDirection.y = 0;
+
+        HandleRotation(aimDirection);
     }
 }

@@ -29,6 +29,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public float currentY = 0f;
     private Vector3 currentVelocity;
     private Vector3 collisionVelocity;
+    private Vector3 lastAimPoint;
 
     public BaseCameraState currentState { get; private set; }
     void Start()
@@ -127,7 +128,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
         return desiredPosition;
     }
-    public Vector3 AimingRay(float maxAimDistance = 50f)
+    public Vector3 CalculateAimPoint(float maxAimDistance = 50f)
     {
         Vector3 direction = transform.forward;
         Ray ray = new Ray(transform.position, direction);
@@ -136,16 +137,20 @@ public class ThirdPersonCamera : MonoBehaviour
         Debug.DrawRay(transform.position, direction * maxAimDistance, Color.green);
 
         int aimTargetLayerMask = LayerMask.GetMask("AimTarget");
-        Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit, maxAimDistance, aimTargetLayerMask))
         {
-            targetPoint = hit.point;
+            lastAimPoint = hit.point;
         }
         else
         {
-            targetPoint = transform.position + direction * maxAimDistance;
+            lastAimPoint = transform.position + direction * maxAimDistance;
         }
 
-        return targetPoint;
+        return lastAimPoint;
+    }
+
+    public Vector3 GetLastAimPoint()
+    {
+        return lastAimPoint;
     }
 }

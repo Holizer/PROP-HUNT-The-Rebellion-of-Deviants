@@ -4,7 +4,7 @@ using UnityEngine;
 public class NormalCameraState : BaseCameraState
 {
     protected Transform player;
-    private bool isReturningToNormal = false;
+    public static bool isReturningToNormal = false;
 
     private float transitionDuration = 15f;
     private float transitionProgress = 0f;
@@ -46,10 +46,6 @@ public class NormalCameraState : BaseCameraState
 
         if (isReturningToNormal)
         {
-            if (player.GetComponent<HunterMovement>() != null)
-            {
-                player.GetComponent<HunterMovement>().isCameraTransition = true;
-            }
             PerformTransitionToNormal(targetPosition, targetRotation);
         }
         else
@@ -76,11 +72,6 @@ public class NormalCameraState : BaseCameraState
 
             transitionProgress = 0f;
             isReturningToNormal = false;
-
-            if (player.GetComponent<HunterMovement>() != null)
-            {
-                player.GetComponent<HunterMovement>().isCameraTransition = false;
-            }
         }
     }
 }

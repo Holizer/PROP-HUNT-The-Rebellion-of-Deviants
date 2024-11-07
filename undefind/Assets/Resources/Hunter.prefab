@@ -1108,9 +1108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5017706173926649576}
+  model: {fileID: 3191146459751756585}
   cameraTransform: {fileID: 7560620521855790929}
   view: {fileID: 0}
-  isCameraTransition: 0
+  thirdPersonCamera: {fileID: 0}
   speed: 3
   runSpeedMultiplier: 1.5
   accelerationTime: 0.2
