@@ -1,12 +1,14 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HiderAnimations : MonoBehaviour
+public class HiderAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
-    Animator animator;
-    
+    public Animator animator;
+    [SerializeField] private PhotonView view;
+
     [Header("Переменные скорости")]
     float velocity = 0.0f;
 
@@ -21,11 +23,20 @@ public class HiderAnimations : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        view = GetComponentInParent<PhotonView>();
         VelocityHash = Animator.StringToHash("Velocity");
     }
 
+
     void Update()
+    {
+        if (view.IsMine)
+        {
+            UpdateAniamtion();
+        }
+    }
+
+    private void UpdateAniamtion()
     {
         bool forwardPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
@@ -40,7 +51,7 @@ public class HiderAnimations : MonoBehaviour
             velocity += Time.deltaTime * acceleration;
         }
 
-        if (forwardPressed && !runPressed && velocity > .5f)
+        if (forwardPressed && !runPressed && velocity > .2f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
@@ -50,7 +61,7 @@ public class HiderAnimations : MonoBehaviour
             velocity -= Time.deltaTime * deceleration;
         }
 
-        if (!runPressed && velocity > 0.5f && !forwardPressed)
+        if (!runPressed && velocity > 0.2f && !forwardPressed)
         {
             velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
         }
@@ -60,6 +71,16 @@ public class HiderAnimations : MonoBehaviour
             velocity = 0.0f;
         }
 
+        if (view.IsMine)
+        {
+            view.RPC("SyncHiderAnimationParameters", RpcTarget.Others, velocity);
+        }
+        animator.SetFloat(VelocityHash, velocity);
+    }
+
+    [PunRPC]
+    void SyncHiderAnimationParameters(float velocity)
+    {
         animator.SetFloat(VelocityHash, velocity);
     }
 }

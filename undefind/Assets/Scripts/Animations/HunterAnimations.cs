@@ -28,12 +28,21 @@ public class HunterAnimation : MonoBehaviour
 
     void Start()
     {
+        view = GetComponentInParent<PhotonView>();
         VelocityHash = Animator.StringToHash("Velocity");
         PistolVelocityHash = Animator.StringToHash("PistolVelocity");
         IsAimingHash = Animator.StringToHash("isAiming"); 
     }
 
     void Update()
+    {
+        if (view.IsMine)
+        {
+            UpdateAniamtion();
+        }
+    }
+
+    private void UpdateAniamtion()
     {
         bool forwardPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
@@ -46,7 +55,7 @@ public class HunterAnimation : MonoBehaviour
 
         if (aimPressed)
         {
-            velocity = 0.0f; 
+            velocity = 0.0f;
             if (pistolVelocity < 1.0f)
             {
                 pistolVelocity += Time.deltaTime * pistolAcceleration;
@@ -79,13 +88,11 @@ public class HunterAnimation : MonoBehaviour
                 velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
             }
 
-            // ≈сли персонаж не прицеливаетс€, уменьшаем значение pistolVelocity
             if (pistolVelocity > 0.0f)
             {
                 pistolVelocity -= Time.deltaTime * pistolDeceleration;
             }
 
-            // ќграничение на минимальные значени€
             if (velocity < 0.0f)
             {
                 velocity = 0.0f;
@@ -97,8 +104,21 @@ public class HunterAnimation : MonoBehaviour
             }
         }
 
+        if (view.IsMine)
+        {
+            view.RPC("SyncHunterAnimationParameters", RpcTarget.Others, velocity, pistolVelocity, aimPressed);
+        }
+
         animator.SetFloat(VelocityHash, velocity);
         animator.SetFloat(PistolVelocityHash, pistolVelocity);
         animator.SetBool(IsAimingHash, aimPressed);
+    }
+
+    [PunRPC]
+    void SyncHunterAnimationParameters(float velocity, float pistolVelocity, bool isAiming)
+    {
+        animator.SetFloat(VelocityHash, velocity);
+        animator.SetFloat(PistolVelocityHash, pistolVelocity);
+        animator.SetBool(IsAimingHash, isAiming);
     }
 }

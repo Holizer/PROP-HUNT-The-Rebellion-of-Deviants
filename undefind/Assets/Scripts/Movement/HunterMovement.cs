@@ -2,7 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class HunterMovement : MonoBehaviour
+public class HunterMovement : MonoBehaviourPun
 {
     [Header("Компоненты")]
     public CharacterController controller;
@@ -13,14 +13,8 @@ public class HunterMovement : MonoBehaviour
 
     [Header("Настройки движения")]
     public float speed = 3f;
-
-    [Tooltip("Реальное ускорение игркока")]
     public float runSpeedMultiplier = 1.5f;
-
-    [Tooltip("Ускорение анимации игрока при зажатии SHIFT")]
     public float accelerationTime = 0.2f;
-
-    [Tooltip("Время поворота игрока")]
     public float turnSmoothTime = 0.1f;
 
     [SerializeField] private Animator animator;
@@ -29,6 +23,10 @@ public class HunterMovement : MonoBehaviour
     [SerializeField] private float targetSpeed;
     [SerializeField] private float speedVelocity;
 
+    [Header("Параметры падения и гравитации")]
+    public float gravity = -9.8f;
+    public float fallSpeed = 0f;
+    public float terminalVelocity = -53f;
     void Start()
     {
         view = GetComponent<PhotonView>();
@@ -45,20 +43,12 @@ public class HunterMovement : MonoBehaviour
             {
                 HandleAimingRotation();
             }
-            else if(!(thirdPersonCamera.currentState is NormalCameraState && NormalCameraState.isReturningToNormal == true))
+            else if (!(thirdPersonCamera.currentState is NormalCameraState && NormalCameraState.isReturningToNormal))
             {
                 HandleMovement();
             }
-        }
-    }
 
-    void HandleRotation(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float smoothAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            model.transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+            HandleGravity();
         }
     }
 
@@ -86,8 +76,7 @@ public class HunterMovement : MonoBehaviour
 
             Vector3 moveDirection = cameraForward * inputDirection.z + cameraRight * inputDirection.x;
 
-            HandleRotation(moveDirection); 
-
+            HandleRotation(moveDirection);
             controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
         }
     }
@@ -99,5 +88,47 @@ public class HunterMovement : MonoBehaviour
         aimDirection.y = 0;
 
         HandleRotation(aimDirection);
+    }
+
+    void HandleRotation(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+
+            model.transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+
+            if (view.IsMine)
+            {
+                view.RPC("SyncRotation", RpcTarget.Others, smoothAngle);
+            }
+        }
+    }
+
+    void HandleGravity()
+    {
+        if (controller.isGrounded)
+        {
+            fallSpeed = -2f;
+        }
+        else
+        {
+            fallSpeed += gravity * Time.deltaTime;
+        }
+
+        if (fallSpeed < terminalVelocity)
+        {
+            fallSpeed = terminalVelocity;
+        }
+
+        Vector3 gravityMove = new Vector3(0f, fallSpeed, 0f);
+        controller.Move(gravityMove * Time.deltaTime);
+    }
+
+    [PunRPC]
+    void SyncRotation(float angle)
+    {
+        model.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 }

@@ -942,13 +942,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6969640011097138052}
-  - component: {fileID: 5017706173926649576}
+  - component: {fileID: 2108476065651285960}
+  - component: {fileID: 527415787424605986}
   - component: {fileID: 985000440371804636}
-  - component: {fileID: 5893957393095796282}
   - component: {fileID: 6222818621133152158}
   - component: {fileID: 7732104360035285591}
   - component: {fileID: 8885883434611204156}
-  - component: {fileID: 527415787424605986}
   - component: {fileID: 4517962885028972068}
   m_Layer: 9
   m_Name: Hunter
@@ -965,7 +964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2348219761864684096}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.236296, y: 0, z: -10.458189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -977,7 +976,7 @@ Transform:
   - {fileID: 1351852825200638732}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &5017706173926649576
+--- !u!143 &2108476065651285960
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1003,6 +1002,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &527415787424605986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2348219761864684096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d32c48c55e37bf418a8cb040aa1fcf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hunterMovement: {fileID: 8885883434611204156}
+  hunterAnimation: {fileID: 4517962885028972068}
+  hunterShoot: {fileID: 7732104360035285591}
+  hunterAimPosition: {fileID: 4198449374334456867}
+  cameraRig: {fileID: 1142612491348697007}
 --- !u!114 &985000440371804636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1018,48 +1034,16 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 5893957393095796282}
   - {fileID: 6222818621133152158}
+  - {fileID: 8885883434611204156}
+  - {fileID: 5940667475438152895}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5893957393095796282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2348219761864684096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!114 &6222818621133152158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,13 +1091,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25639f371f6de2c4a9c029bac4aada09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 5017706173926649576}
+  controller: {fileID: 2108476065651285960}
   model: {fileID: 3191146459751756585}
   cameraTransform: {fileID: 7560620521855790929}
   view: {fileID: 0}
   thirdPersonCamera: {fileID: 0}
-  speed: 3
-  runSpeedMultiplier: 1.5
+  speed: 2
+  runSpeedMultiplier: 2.5
   accelerationTime: 0.2
   turnSmoothTime: 0.1
   animator: {fileID: 1138271389500260327}
@@ -1121,23 +1105,9 @@ MonoBehaviour:
   currentSpeed: 0
   targetSpeed: 0
   speedVelocity: 0
---- !u!114 &527415787424605986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2348219761864684096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d32c48c55e37bf418a8cb040aa1fcf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hunterMovement: {fileID: 8885883434611204156}
-  hunterAnimation: {fileID: 4517962885028972068}
-  hunterShoot: {fileID: 7732104360035285591}
-  hunterAimPosition: {fileID: 4198449374334456867}
-  camera: {fileID: 1142612491348697007}
+  gravity: -9.8
+  fallSpeed: 0
+  terminalVelocity: -53
 --- !u!114 &4517962885028972068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,7 +1123,7 @@ MonoBehaviour:
   animator: {fileID: 1138271389500260327}
   view: {fileID: 0}
   acceleration: 0.3
-  deceleration: 0.6
+  deceleration: 1.8
   runMultiplier: 4
   quickStopMultiplier: 4
   pistolAcceleration: 0.8
@@ -1380,6 +1350,7 @@ GameObject:
   - component: {fileID: 1138271389500260327}
   - component: {fileID: 4761823088371261131}
   - component: {fileID: 8149981124798340452}
+  - component: {fileID: 5940667475438152895}
   m_Layer: 0
   m_Name: HunterModel
   m_TagString: Untagged
@@ -1526,6 +1497,33 @@ MonoBehaviour:
   - m_Rig: {fileID: 2357212081805929738}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &5940667475438152895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3191146459751756585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 1
+    Name: Velocity
+  - Type: 1
+    SynchronizeType: 1
+    Name: PistolVelocity
+  - Type: 4
+    SynchronizeType: 1
+    Name: isAiming
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &3523949247942064172
 GameObject:
   m_ObjectHideFlags: 0

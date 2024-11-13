@@ -20,11 +20,16 @@ public class HiderMovement : MonoBehaviour
     private float targetSpeed;
     private float speedVelocity;
 
+
+    [Header("Параметры падения и гравитации")]
+    public float gravity = -9.8f;
+    public float fallSpeed = 0f;
+    public float terminalVelocity = -53f;
     void Start()
     {
+        view = GetComponent<PhotonView>();
         currentSpeed = speed;
         targetSpeed = speed;
-        view = GetComponent<PhotonView>();
     }
     
     void Update()
@@ -32,9 +37,29 @@ public class HiderMovement : MonoBehaviour
         if (view.IsMine)
         {
             HandleMovement();
+            HandleGravity();
         }
     }
 
+    void HandleGravity()
+    {
+        if (controller.isGrounded)
+        {
+            fallSpeed = -2f;
+        }
+        else
+        {
+            fallSpeed += gravity * Time.deltaTime;
+        }
+
+        if (fallSpeed < terminalVelocity)
+        {
+            fallSpeed = terminalVelocity;
+        }
+
+        Vector3 gravityMove = new Vector3(0f, fallSpeed, 0f);
+        controller.Move(gravityMove * Time.deltaTime);
+    }
     void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");

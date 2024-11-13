@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     {
         PlayerRole selectedRole = ChooseRandomRole();
         Vector3 spawnPosition = GetSpawnPosition();
-        SpawnPlayer(PlayerRole.Hunter, spawnPosition);
+        SpawnPlayer(ChooseRandomRole(), spawnPosition);
     }
     private PlayerRole ChooseRandomRole()
     {
@@ -22,8 +22,16 @@ public class PlayerManager : MonoBehaviour
     }
     private void SpawnPlayer(PlayerRole role, Vector3 spawnPosition)
     {
-        currentPlayer = PhotonNetwork.Instantiate(hunterPrefab.name, spawnPosition, Quaternion.identity);
-        currentPlayer.GetComponent<PlayerSetup>().IsLocalPlayer();
+        if (role == PlayerRole.Hunter)
+        {
+            currentPlayer = PhotonNetwork.Instantiate(hunterPrefab.name, spawnPosition, Quaternion.identity);
+            currentPlayer.GetComponent<HunterSetup>().SetupLocalPlayer();
+        }
+        else
+        {
+            currentPlayer = PhotonNetwork.Instantiate(hiderPrefab.name, spawnPosition, Quaternion.identity);
+            currentPlayer.GetComponent<HiderSetup>().SetupLocalPlayer();
+        }
     }
     private Vector3 GetSpawnPosition()
     {
