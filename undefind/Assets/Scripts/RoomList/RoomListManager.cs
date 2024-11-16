@@ -36,7 +36,7 @@ public class RoomListManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnectedAndReady)
         {
             RoomOptions roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 4;
+            roomOptions.MaxPlayers = 2;
             roomOptions.IsVisible = true;
             PhotonNetwork.CreateRoom(createInput.text, roomOptions);
         }
@@ -52,6 +52,6 @@ public class RoomListManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel(Scene.GameMap.ToString());
+        PhotonNetwork.LoadLevel(Scene.Lobby.ToString());
     }
 }

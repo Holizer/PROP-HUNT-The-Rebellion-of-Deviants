@@ -1,6 +1,5 @@
-using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
+using Photon.Pun;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -10,16 +9,23 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject spawnArea;
     private GameObject currentPlayer;
+
     void Start()
     {
-        PlayerRole selectedRole = ChooseRandomRole();
-        Vector3 spawnPosition = GetSpawnPosition();
-        SpawnPlayer(ChooseRandomRole(), spawnPosition);
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object roleObj))
+        {
+            string roleString = roleObj.ToString();
+            PlayerRole role = (PlayerRole)System.Enum.Parse(typeof(PlayerRole), roleString);
+
+            Vector3 spawnPosition = GetSpawnPosition();
+            SpawnPlayer(role, spawnPosition);
+        }
+        else
+        {
+            Debug.LogError("Роль для игрока не найдена!");
+        }
     }
-    private PlayerRole ChooseRandomRole()
-    {
-        return (PlayerRole)Random.Range(0, System.Enum.GetValues(typeof(PlayerRole)).Length);
-    }
+
     private void SpawnPlayer(PlayerRole role, Vector3 spawnPosition)
     {
         if (role == PlayerRole.Hunter)
@@ -33,6 +39,7 @@ public class PlayerManager : MonoBehaviour
             currentPlayer.GetComponent<HiderSetup>().SetupLocalPlayer();
         }
     }
+
     private Vector3 GetSpawnPosition()
     {
         Bounds bounds = spawnArea.GetComponent<BoxCollider>().bounds;

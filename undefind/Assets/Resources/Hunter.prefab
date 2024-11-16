@@ -1122,6 +1122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1138271389500260327}
   view: {fileID: 0}
+  thirdPersonCamera: {fileID: 0}
   acceleration: 0.3
   deceleration: 1.8
   runMultiplier: 4

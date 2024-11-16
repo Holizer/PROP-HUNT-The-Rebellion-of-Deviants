@@ -108,26 +108,24 @@ public class ThirdPersonCamera : MonoBehaviour
     public Vector3 HandleCollision(Vector3 desiredPosition)
     {
         Vector3 direction = desiredPosition - player.position;
+        float sphereRadius = cameraRadius;
+
         RaycastHit hit;
-
-        Vector3 currentPosition = transform.position;
-        Vector3 start = player.position + Vector3.up * collisionHeightOffset;
-
-        if (Physics.SphereCast(start, cameraRadius, direction.normalized, out hit, distance, collisionMask))
+        if (Physics.SphereCast(player.position + Vector3.up * collisionHeightOffset, sphereRadius, direction.normalized, out hit, direction.magnitude))
         {
-            float adjustedDistance = Mathf.Clamp(hit.distance - cameraRadius, minCameraDistance, distance);
-            Vector3 adjustedPosition = player.position + direction.normalized * adjustedDistance;
-            adjustedPosition.y = start.y;
-
-            desiredPosition = Vector3.SmoothDamp(currentPosition, adjustedPosition, ref collisionVelocity, smoothTime);
+            if (hit.collider != null)
+            {
+                float distanceToCollision = hit.distance - sphereRadius;
+                desiredPosition = player.position + direction.normalized * Mathf.Max(distanceToCollision, minCameraDistance);
+                desiredPosition = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10f);
+                desiredPosition.y = player.position.y + collisionHeightOffset;
+            }
         }
-        else
-        {
-            desiredPosition = Vector3.SmoothDamp(currentPosition, desiredPosition, ref collisionVelocity, smoothTime);
-        }
-
         return desiredPosition;
     }
+
+
+
     public Vector3 CalculateAimPoint(float maxAimDistance = 50f)
     {
         Vector3 direction = transform.forward;

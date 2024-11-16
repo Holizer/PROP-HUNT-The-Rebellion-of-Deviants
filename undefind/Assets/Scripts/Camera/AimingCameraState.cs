@@ -7,14 +7,12 @@ public class AimingCameraState : BaseCameraState
 {
     private Transform aimPosition;
 
-    // Обработка анимации
     private Rig animationRig;
     private RigController rigController;
     private RigBuilder rigBuilder;
     private GameObject aimTarget;
 
-    // Скорость перехода в камеры в aimPosition
-    private float smoothTime = 0.3f;
+    private float smoothTime = 0.35f;
     
     private float aimingSensitivity = 60f;
     private bool aimingInvertY = false;

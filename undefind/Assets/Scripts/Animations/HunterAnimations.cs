@@ -8,15 +8,16 @@ public class HunterAnimation : MonoBehaviour
     [Header("Компоненты")]
     public Animator animator;
     [SerializeField] private PhotonView view;
+    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
 
     [Header("Переменные скорости")]
     private float velocity = 0.0f;
     private float pistolVelocity = 0.0f;
 
     [Header("Настройки движения")]
-    [SerializeField] private float acceleration = 0.3f;             
-    [SerializeField] private float deceleration = 0.6f;        
-    [SerializeField] private float runMultiplier = 4.0f;           
+    [SerializeField] private float acceleration = 0.3f;
+    [SerializeField] private float deceleration = 0.6f;
+    [SerializeField] private float runMultiplier = 4.0f;
     [SerializeField] private float quickStopMultiplier = 4.0f;
     [SerializeField] private float pistolAcceleration = 0.8f;
     [SerializeField] private float pistolDeceleration = 1.0f;
@@ -29,9 +30,11 @@ public class HunterAnimation : MonoBehaviour
     void Start()
     {
         view = GetComponentInParent<PhotonView>();
+        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+
         VelocityHash = Animator.StringToHash("Velocity");
         PistolVelocityHash = Animator.StringToHash("PistolVelocity");
-        IsAimingHash = Animator.StringToHash("isAiming"); 
+        IsAimingHash = Animator.StringToHash("isAiming");
     }
 
     void Update()
@@ -55,70 +58,97 @@ public class HunterAnimation : MonoBehaviour
 
         if (aimPressed)
         {
-            velocity = 0.0f;
-            if (pistolVelocity < 1.0f)
-            {
-                pistolVelocity += Time.deltaTime * pistolAcceleration;
-            }
+            HandleAiming();
         }
         else
         {
-            if (runPressed && forwardPressed && velocity < 1.0f)
-            {
-                velocity += Time.deltaTime * acceleration * runMultiplier;
-            }
-
-            if (forwardPressed && velocity < 1.0f)
-            {
-                velocity += Time.deltaTime * acceleration;
-            }
-
-            if (forwardPressed && !runPressed && velocity > .2f)
-            {
-                velocity -= Time.deltaTime * deceleration;
-            }
-
-            if (!forwardPressed && velocity > 0.0f)
-            {
-                velocity -= Time.deltaTime * deceleration;
-            }
-
-            if (!runPressed && velocity > 0.2f && !forwardPressed)
-            {
-                velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
-            }
-
-            if (pistolVelocity > 0.0f)
-            {
-                pistolVelocity -= Time.deltaTime * pistolDeceleration;
-            }
-
-            if (velocity < 0.0f)
+            if (thirdPersonCamera.currentState is NormalCameraState && NormalCameraState.isReturningToNormal)
             {
                 velocity = 0.0f;
             }
-
-            if (pistolVelocity < 0.0f)
+            else
             {
-                pistolVelocity = 0.0f;
+                HandleMovement(forwardPressed, runPressed);
             }
         }
 
         if (view.IsMine)
         {
-            view.RPC("SyncHunterAnimationParameters", RpcTarget.Others, velocity, pistolVelocity, aimPressed);
+            SyncAnimationParameters(aimPressed);
         }
 
+        UpdateAnimatorParameters(aimPressed);
+    }
+
+    private void HandleAiming()
+    {
+        velocity = 0.0f;
+        // Переход в анимацию прицеливания
+        if (pistolVelocity > 0.0f)
+        {
+            pistolVelocity -= Time.deltaTime * pistolDeceleration;
+        }
+        // Возвращение из анимации прицеливания
+        else if (pistolVelocity < 1.0f)
+        {
+            pistolVelocity += Time.deltaTime * pistolAcceleration;
+        }
+        
+        pistolVelocity = Mathf.Max(pistolVelocity, 0.0f);
+    }
+
+    private void HandleMovement(bool forwardPressed, bool runPressed)
+    {
+        // Ускорение
+        if (runPressed && forwardPressed && velocity < 1.0f)
+        {
+            velocity += Time.deltaTime * acceleration * runMultiplier;
+        }
+
+        // Обычное движение
+        else if (forwardPressed && velocity < 0.2f)
+        {
+            velocity += Time.deltaTime * acceleration;
+        }
+
+        // Переход в обччное движение после ускорение
+        else if (forwardPressed && !runPressed && velocity > 0.2f)
+        {
+            velocity -= Time.deltaTime * deceleration;
+        }
+
+        // Остановка
+        else if (!forwardPressed && velocity > 0.0f)
+        {
+            velocity -= Time.deltaTime * deceleration;
+        }
+
+        // Быстрая остановка после бега, полное отжатие кнопок
+        else if (!runPressed && velocity > 0.2f && !forwardPressed)
+        {
+            velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
+        }
+
+        velocity = Mathf.Max(velocity, 0.0f);
+    }
+
+    private void SyncAnimationParameters(bool aimPressed)
+    {
+        view.RPC("SyncHunterAnimationParameters", RpcTarget.Others, velocity, pistolVelocity, aimPressed);
+    }
+
+    private void UpdateAnimatorParameters(bool aimPressed)
+    {
         animator.SetFloat(VelocityHash, velocity);
         animator.SetFloat(PistolVelocityHash, pistolVelocity);
         animator.SetBool(IsAimingHash, aimPressed);
     }
 
     [PunRPC]
-    void SyncHunterAnimationParameters(float velocity, float pistolVelocity, bool isAiming)
+    void SyncHunterAnimationParameters(float velocity, float pistolVelocity, bool aimPressed)
     {
-        animator.SetFloat(VelocityHash, velocity);
-        animator.SetFloat(PistolVelocityHash, pistolVelocity);
-        animator.SetBool(IsAimingHash, isAiming);
+        this.velocity = velocity;
+        this.pistolVelocity = pistolVelocity;
+        UpdateAnimatorParameters(aimPressed);
     }
 }

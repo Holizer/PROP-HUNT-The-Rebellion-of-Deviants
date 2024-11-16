@@ -244,7 +244,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -257,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 81120956}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.400002, y: -0, z: 0}
+  m_LocalPosition: {x: 9.400002, y: -0.2, z: 0}
   m_LocalScale: {x: -5.2000003, y: 0, z: -4.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3838,7 +3838,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4149,7 +4149,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4670,9 +4670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hunterPrefab: {fileID: 2348219761864684096, guid: e1e88d7e5e3eeb847af6a799f8eeba42, type: 3}
   hiderPrefab: {fileID: 5155196472612872275, guid: e74cd4efe3ea5414d8ea704a1b08dd34, type: 3}
-  lobbySpawnArea: {fileID: 1553328086}
-  hunterSpawnArea: {fileID: 81120956}
-  hiderSpawnArea: {fileID: 1824600554}
+  spawnArea: {fileID: 81120956}
 --- !u!1001 &2123711674
 PrefabInstance:
   m_ObjectHideFlags: 0

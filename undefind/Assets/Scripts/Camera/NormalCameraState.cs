@@ -6,7 +6,7 @@ public class NormalCameraState : BaseCameraState
     protected Transform player;
     public static bool isReturningToNormal = false;
 
-    private float transitionDuration = 15f;
+    private float transitionDuration = 18f;
     private float transitionProgress = 0f;
 
     public NormalCameraState(ThirdPersonCamera camera) : base(camera)
@@ -50,7 +50,8 @@ public class NormalCameraState : BaseCameraState
         }
         else
         {
-            // Позиция камеры будет рассчитана относительно игрока
+            //targetPosition = camera.HandleCollision(targetPosition);
+            //camera.transform.position = targetPosition;
             camera.transform.position = player.position + heightOffset + rotation * standardOffset;
             camera.transform.rotation = Quaternion.LookRotation(player.position + heightOffset - camera.transform.position);
         }
