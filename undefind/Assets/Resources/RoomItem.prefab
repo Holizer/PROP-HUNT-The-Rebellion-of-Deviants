@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 860.2839, y: 92.8216}
+  m_SizeDelta: {x: 860, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &44943197082563941
 CanvasRenderer:
@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: {fileID: 3262183472658262861}
-  roomListManager: {fileID: 0}
 --- !u!114 &1976342566588224881
 MonoBehaviour:
   m_ObjectHideFlags: 0

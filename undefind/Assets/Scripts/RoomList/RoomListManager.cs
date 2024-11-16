@@ -7,15 +7,12 @@ using UnityEngine.UI;
 
 public class RoomListManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Button goBackButton;
     [SerializeField] private TMP_InputField createInput;
-
     [SerializeField] private GameObject RoomItemPrefab;
     [SerializeField] private Transform RoomListContent;
 
     private void Start()
     {
-        goBackButton.onClick.AddListener(OnGoBackButtonClicked);
         if (PhotonNetwork.IsConnectedAndReady)
         {
             PhotonNetwork.JoinLobby();
@@ -30,7 +27,12 @@ public class RoomListManager : MonoBehaviourPunCallbacks
     {
         Loader.Load(Scene.Menu);
     }
-    
+
+    public void OnRefreshButtonPressed()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
     public void CreateRoom()
     {
         if (PhotonNetwork.IsConnectedAndReady)

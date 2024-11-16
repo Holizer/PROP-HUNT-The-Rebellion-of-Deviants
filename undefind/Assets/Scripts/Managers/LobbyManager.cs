@@ -15,7 +15,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private int countdownTime = 5; 
     private bool isReady = false; 
-    private Coroutine countdownCoroutine;  
+    private Coroutine countdownCoroutine;
+
+    public bool isDebugMode = false;
 
     private void Start()
     {
@@ -32,7 +34,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.NickName = $"Player_{Random.Range(1000, 9999)}";
         }
     }
-
+    
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdatePlayerCount();
@@ -51,7 +53,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             CheckAllPlayersReady();
         }
     }
-
+    
     private void UpdatePlayerCount()
     {
         if (playerCountText != null)
@@ -75,9 +77,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdateStatusText();
     }
 
+    public void OnLeaveRoomButtonPressed()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel(Scene.RoomList.ToString());
+    }
+
     private void CheckAllPlayersReady()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount < 2) return;
+        if (!isDebugMode && PhotonNetwork.CurrentRoom.PlayerCount < 2) return;
 
         bool allReady = true;
 
@@ -107,37 +119,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
     private IEnumerator StartCountdown()
     {
         int timeLeft = countdownTime;
-
-        // Переменная для отслеживания, какой игрок получает роль
         int playerIndex = 0;
 
         while (timeLeft > 0)
         {
-            // Назначаем роль очередному игроку во время отсчета
             if (PhotonNetwork.CurrentRoom.PlayerCount > playerIndex)
             {
                 AssignRoleToPlayer(playerIndex);
                 playerIndex++;
             }
 
-            // Обновляем текст таймера
             UpdateCountdownText($"Игра начнётся через {timeLeft}...");
-            yield return new WaitForSeconds(1);  // Задержка 1 секунда
+            yield return new WaitForSeconds(1);
             timeLeft--;
         }
 
-        // Когда таймер завершится, показываем сообщение
         UpdateCountdownText("Игра начинается!");
-        yield return new WaitForSeconds(1);  // Задержка перед началом игры
+        yield return new WaitForSeconds(1);
 
-        // Логируем роли
         LogPlayerRoles();
 
-        // Запускаем игру
         StartGame();
     }
 
@@ -148,13 +152,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             countdownText.text = text;
         }
     }
+
     private void AssignRoleToPlayer(int playerIndex)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
         Player player = PhotonNetwork.CurrentRoom.Players.Values.ElementAt(playerIndex);
 
-        string role = (playerIndex == 0) ? "Hunter" : "Hider";
+        string role = (playerIndex == 0) ? "Hider" : "Hunter";
 
         PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
         player.SetCustomProperties(playerProperties);
@@ -177,8 +182,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
-
     private void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)

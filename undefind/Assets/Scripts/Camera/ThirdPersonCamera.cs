@@ -1,9 +1,5 @@
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.Animations;
-using static UnityEngine.UI.Image;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
@@ -32,6 +28,17 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 lastAimPoint;
 
     public BaseCameraState currentState { get; private set; }
+
+    [Header("Fade ύττεκς")]
+    public ScreenFader screenFader;
+    private void Awake()
+    {
+        if (screenFader != null)
+        {
+            screenFader.FadeIn();
+        }
+    }
+
     void Start()
     {
         SetState(new NormalCameraState(this));
