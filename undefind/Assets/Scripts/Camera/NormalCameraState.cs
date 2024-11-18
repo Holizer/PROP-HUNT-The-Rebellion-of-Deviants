@@ -4,8 +4,8 @@ using UnityEngine;
 public class NormalCameraState : BaseCameraState
 {
     protected Transform player;
+    
     public static bool isReturningToNormal = false;
-
     private float transitionDuration = 18f;
     private float transitionProgress = 0f;
 

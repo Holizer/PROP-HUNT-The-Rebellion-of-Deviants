@@ -7,7 +7,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject hunterPrefab;
     public GameObject hiderPrefab;
 
-    public GameObject spawnArea;
+    public GameObject hunterSpawnArea;
+    public GameObject hiderSpawnArea;
     private GameObject currentPlayer;
 
     void Start()
@@ -16,9 +17,7 @@ public class PlayerManager : MonoBehaviour
         {
             string roleString = roleObj.ToString();
             PlayerRole role = (PlayerRole)System.Enum.Parse(typeof(PlayerRole), roleString);
-
-            Vector3 spawnPosition = GetSpawnPosition();
-            SpawnPlayer(role, spawnPosition);
+            SpawnPlayer(role);
         }
         else
         {
@@ -26,21 +25,20 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void SpawnPlayer(PlayerRole role, Vector3 spawnPosition)
+    private void SpawnPlayer(PlayerRole role)
     {
         if (role == PlayerRole.Hunter)
         {
+            Vector3 spawnPosition = GetSpawnPosition(hunterSpawnArea);
             currentPlayer = PhotonNetwork.Instantiate(hunterPrefab.name, spawnPosition, Quaternion.identity);
-            currentPlayer.GetComponent<HunterSetup>().SetupLocalPlayer();
         }
         else
         {
+            Vector3 spawnPosition = GetSpawnPosition(hiderSpawnArea);
             currentPlayer = PhotonNetwork.Instantiate(hiderPrefab.name, spawnPosition, Quaternion.identity);
-            currentPlayer.GetComponent<HiderSetup>().SetupLocalPlayer();
         }
     }
-
-    private Vector3 GetSpawnPosition()
+    private Vector3 GetSpawnPosition(GameObject spawnArea)
     {
         Bounds bounds = spawnArea.GetComponent<BoxCollider>().bounds;
         float x = Random.Range(bounds.min.x, bounds.max.x);

@@ -952,11 +952,11 @@ GameObject:
   - component: {fileID: 5104534918407717738}
   m_Layer: 9
   m_Name: Hunter
-  m_TagString: Untagged
+  m_TagString: Hunter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6969640011097138052
 Transform:
   m_ObjectHideFlags: 0
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   range: 30
-  camera: {fileID: 5922669943209037601}
+  thirdPersonCamera: {fileID: 5922669943209037601}
   Muzzelflash: {fileID: 606280578810112300, guid: 73d106204f6dfa44791619c2617c3d65, type: 3}
   Flareeffect: {fileID: 606280578810112302, guid: 73d106204f6dfa44791619c2617c3d65, type: 3}
   Muzzelforce: 30

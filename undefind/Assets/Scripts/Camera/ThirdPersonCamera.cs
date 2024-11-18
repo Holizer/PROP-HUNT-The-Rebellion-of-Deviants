@@ -131,8 +131,6 @@ public class ThirdPersonCamera : MonoBehaviour
         return desiredPosition;
     }
 
-
-
     public Vector3 CalculateAimPoint(float maxAimDistance = 50f)
     {
         Vector3 direction = transform.forward;

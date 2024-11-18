@@ -62,6 +62,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void UpdateCountdownText(string text)
+    {
+        if (countdownText != null)
+        {
+            countdownText.text = text;
+        }
+    }
     private void UpdateStatusText()
     {
         if (statusText != null)
@@ -122,20 +129,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private IEnumerator StartCountdown()
     {
         int timeLeft = countdownTime;
-        int playerIndex = 0;
-
         while (timeLeft > 0)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount > playerIndex)
-            {
-                AssignRoleToPlayer(playerIndex);
-                playerIndex++;
-            }
 
             UpdateCountdownText($"Игра начнётся через {timeLeft}...");
             yield return new WaitForSeconds(1);
             timeLeft--;
         }
+
+        AssignRoleToPlayers();
 
         UpdateCountdownText("Игра начинается!");
         yield return new WaitForSeconds(1);
@@ -144,28 +146,34 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         StartGame();
     }
-
-    private void UpdateCountdownText(string text)
-    {
-        if (countdownText != null)
-        {
-            countdownText.text = text;
-        }
-    }
-
-    private void AssignRoleToPlayer(int playerIndex)
+    private void AssignRoleToPlayers()
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        Player player = PhotonNetwork.CurrentRoom.Players.Values.ElementAt(playerIndex);
+        var players = PhotonNetwork.CurrentRoom.Players.Values.ToList();
 
-        string role = (playerIndex == 0) ? "Hider" : "Hunter";
+        int hunterIndex = Random.Range(0, players.Count);
 
-        PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
-        player.SetCustomProperties(playerProperties);
+        for (int i = 0; i < players.Count; i++)
+        {
+            string role = (i == hunterIndex) ? "Hunter" : "Hider"; 
 
-        Debug.Log($"Роль назначена: Игрок {player.NickName} — Роль: {role}");
+            PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
+            players[i].SetCustomProperties(playerProperties);
+
+            Debug.Log($"Роль назначена: Игрок {players[i].NickName} — Роль: {role}");
+        }
     }
+    private void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+            PhotonNetwork.LoadLevel(Scene.GameMap.ToString());
+        }
+    }
+
 
     private void LogPlayerRoles()
     {
@@ -180,15 +188,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log($"Игрок {player.NickName} — Роль не назначена.");
             }
-        }
-    }
-    private void StartGame()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel(Scene.GameMap.ToString());
         }
     }
 }
