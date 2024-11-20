@@ -170,7 +170,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
-            PhotonNetwork.LoadLevel(Scene.GameMap2.ToString());
+            PhotonNetwork.LoadLevel(Scene.GameMap.ToString());
         }
     }
 
