@@ -11,5 +11,7 @@ public enum Scene
     Menu,
     RoomList,
     Lobby,
-    GameMap
+    Loading,
+    GameMap,
+    GameMap2
 }

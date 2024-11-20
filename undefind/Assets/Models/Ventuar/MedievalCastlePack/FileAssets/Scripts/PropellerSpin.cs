@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This script spins the propeller of the WindmillBase object spin along its local Z axis.
-public class PropellerSpin : MonoBehaviour
+namespace LowPolyMedievalCastlePack
 {
-    
-    public float spinSpeed = 13;
-
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Spins an object along its local Z axis by a defined spin speed value. Used to spin the propeller of the WindmillBase object.
+    /// </summary>
+    public class PropellerSpin : MonoBehaviour
     {
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * -spinSpeed);
+        public float spinSpeed = 13;
+
+        // Update is called once per frame
+        void Update()
+        {
+            transform.RotateAround(transform.position, transform.forward, Time.deltaTime * -spinSpeed);
+        }
     }
 }
