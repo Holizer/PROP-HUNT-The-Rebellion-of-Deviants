@@ -1381,8 +1381,8 @@ MonoBehaviour:
   statusText: {fileID: 181713442}
   countdownText: {fileID: 1819279833}
   readyButton: {fileID: 5473605}
-  countdownTime: 3
-  isDebugMode: 0
+  countdownTime: 0
+  isDebugMode: 1
 --- !u!1 &1744491808
 GameObject:
   m_ObjectHideFlags: 0

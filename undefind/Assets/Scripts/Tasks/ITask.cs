@@ -7,4 +7,11 @@ public interface ITask
     void Initialize(GameObject targetObject);
     void PerformTask(GameObject performer);
     bool IsCompleted();
+    TaskType GetTaskType();
+}
+
+public enum TaskType
+{
+    Common,
+    Unique
 }

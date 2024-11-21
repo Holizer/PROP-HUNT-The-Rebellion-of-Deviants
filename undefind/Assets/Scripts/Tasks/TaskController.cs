@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TaskController : MonoBehaviour, ITask
+public class TaskController : MonoBehaviour
 {
     public string taskName;
     public bool taskCompleted;
@@ -15,12 +15,6 @@ public class TaskController : MonoBehaviour, ITask
     public void PerformTask(GameObject performer)
     {
         if (taskCompleted) return;
-
-        if (Vector3.Distance(performer.transform.position, taskObject.transform.position) < 3f)
-        {
-            taskCompleted = true;
-            Debug.Log($"{performer.name} выполнил задание: {taskName}");
-        }
     }
 
     public bool IsCompleted()

@@ -4,36 +4,29 @@ using UnityEngine;
 
 public class PoisonWaterTask : MonoBehaviour, ITask
 {
-    [SerializeField] private bool completed = false;
-    [SerializeField] private GameObject targetObject;
+    private bool taskCompleted;
+    private GameObject taskObject;
 
     public void Initialize(GameObject targetObject)
     {
-        this.targetObject = targetObject;
+        taskObject = targetObject;
     }
 
     public void PerformTask(GameObject performer)
     {
-        if (completed)
+        if (taskCompleted) return;
+
+        if (performer.CompareTag("Hider"))
         {
-            Debug.Log("Задание уже выполнено.");
-            return;
+            taskCompleted = true;
+            Debug.Log($"{performer.name} отравил воду!");
         }
-
-        Debug.Log($"{performer.name} выполняет задание 'Отравление воды'.");
-        StartCoroutine(CompleteTask());
+        else
+        {
+            Debug.Log("У этого объекта нет прав на выполнение задания.");
+        }
     }
 
-    private IEnumerator CompleteTask()
-    {
-        yield return new WaitForSeconds(3f);
-        completed = true;
-        Debug.Log("Вода отравлена!");
-    }
-
-    public bool IsCompleted()
-    {
-        return completed;
-    }
+    public bool IsCompleted() => taskCompleted;
+    public TaskType GetTaskType() => TaskType.Unique;
 }
-

@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.46821195
+      value: 53.070877
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.30010897
+      value: -0.6462941
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.9204221
+      value: -134.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
       propertyPath: m_LocalRotation.w
@@ -73,7 +73,7 @@ PrefabInstance:
       addedObject: {fileID: 244061041666057065}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2721792244483990262}
+      addedObject: {fileID: 5510168054810884803}
   m_SourcePrefab: {fileID: 100100000, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
 --- !u!1 &6601753128214052285 stripped
 GameObject:
@@ -101,7 +101,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!82 &2721792244483990262
+--- !u!82 &5510168054810884803
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,7 +113,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: de236c36b84795e4fb05ac018b2a48d0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -122,9 +122,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 5
-  MaxDistance: 20
+  MaxDistance: 60
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
