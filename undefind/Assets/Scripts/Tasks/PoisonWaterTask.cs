@@ -1,32 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonWaterTask : MonoBehaviour, ITask
+public class PoisonWaterTask : Task
 {
-    private bool taskCompleted;
-    private GameObject taskObject;
-
-    public void Initialize(GameObject targetObject)
+    public override string TaskName => "Отравить воду";
+    public override void Initialize(GameObject targetObject)
     {
-        taskObject = targetObject;
+        base.Initialize(targetObject ?? gameObject);
+        taskType = TaskType.Unique; 
     }
 
-    public void PerformTask(GameObject performer)
+    public override void PerformTask(GameObject performer)
     {
-        if (taskCompleted) return;
+        base.PerformTask(performer);
 
         if (performer.CompareTag("Hider"))
         {
-            taskCompleted = true;
+            base.CompleteTask(); 
             Debug.Log($"{performer.name} отравил воду!");
         }
         else
         {
-            Debug.Log("У этого объекта нет прав на выполнение задания.");
+            Debug.Log($"{performer.name} не может выполнить это задание.");
         }
     }
-
-    public bool IsCompleted() => taskCompleted;
-    public TaskType GetTaskType() => TaskType.Unique;
 }

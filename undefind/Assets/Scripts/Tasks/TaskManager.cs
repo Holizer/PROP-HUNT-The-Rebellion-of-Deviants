@@ -1,23 +1,62 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TaskManager : MonoBehaviour
 {
-    [SerializeField] private List<ITask> tasks = new List<ITask>();
+    [Header("Лист заданий")]
+    public TaskList taskList;
+    
+    private List<Task> tasks = new List<Task>();
 
-    void Start()
+    private void HandleTaskCompleted(Task completedTask)
     {
-        tasks.AddRange(GetComponentsInChildren<ITask>());
+        Debug.Log($"Задание {completedTask.TaskName} завершено! Обновляем статус.");
+        taskList.UpdateTaskUI(tasks);
+
+    }
+    private void Start()
+    {
+        if (taskList == null)
+        {
+            Debug.LogError("TaskList не найден в сцене!");
+        }
+        InitializeTasks();
     }
 
-    public void UpdateTasks(GameObject performer)
+    private void InitializeTasks()
     {
-        foreach (var task in tasks)
+        GameObject taskContainerObject = GameObject.Find("TaskContainer");
+
+        if (taskContainerObject != null)
         {
-            if (!task.IsCompleted())
+            Transform taskContainer = taskContainerObject.transform;
+
+            tasks.Clear();
+            foreach (Transform child in taskContainer)
             {
-                task.PerformTask(performer);
+                Task task = child.GetComponent<Task>();
+                if (task != null)
+                {
+                    tasks.Add(task);
+                    task.OnTaskCompleted += HandleTaskCompleted;
+                    
+                    Debug.Log($"Задание найдено: {task.TaskName}");
+                }
             }
+
+            if (taskList != null)
+            {
+                taskList.UpdateTaskUI(tasks);
+            }
+            else
+            {
+                Debug.LogError("TaskList не привязан к TaskManager!");
+            }
+        }
+        else
+        {
+            Debug.LogError("TaskContainer не найден на сцене! Убедитесь, что объект существует и назван корректно.");
         }
     }
 }

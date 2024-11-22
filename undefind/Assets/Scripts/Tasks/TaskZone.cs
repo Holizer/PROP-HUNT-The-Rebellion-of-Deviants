@@ -1,11 +1,12 @@
 using UnityEngine;
+
 public class TaskZone : MonoBehaviour
 {
-    [SerializeField] private ITask task;
+    [SerializeField] private Task task;
 
     private void Start()
     {
-        task = GetComponentInParent<ITask>();
+        task = GetComponentInParent<Task>();
         if (task == null)
         {
             Debug.LogError("«адание не прив€зано к этой зоне.");
@@ -14,7 +15,7 @@ public class TaskZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hider"))
+        if (other.CompareTag("Hider") && !task.IsCompleted())
         {
             Debug.Log($"{other.name} вошел в зону задани€!");
             task.PerformTask(other.gameObject);
