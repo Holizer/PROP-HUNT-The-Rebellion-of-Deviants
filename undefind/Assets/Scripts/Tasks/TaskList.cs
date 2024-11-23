@@ -23,7 +23,7 @@ public class TaskList : MonoBehaviour
 
             if (taskUIComponent != null)
             {
-                string taskName = task.TaskName;
+                string taskName = task.taskName;
                 string taskStatus = task.IsCompleted() ? "1/1" : "0/1";
                 taskUIComponent.Initialize(taskName, taskStatus);
             }

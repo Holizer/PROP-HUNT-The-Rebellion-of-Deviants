@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class PoisonWaterTask : Task
 {
-    public override string TaskName => "Отравить воду";
-    public override void Initialize(GameObject targetObject)
+    public override string taskName => "Отравить воду";
+
+    public override void Initialize(GameObject taskObject)
     {
-        base.Initialize(targetObject ?? gameObject);
+        base.Initialize(gameObject);
         taskType = TaskType.Unique; 
     }
 

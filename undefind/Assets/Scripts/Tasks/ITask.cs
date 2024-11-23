@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ITask
 {
-    void Initialize(GameObject targetObject);
+    void Initialize(GameObject taskObject);
     void PerformTask(GameObject performer);
     bool IsCompleted();
     TaskType GetTaskType();

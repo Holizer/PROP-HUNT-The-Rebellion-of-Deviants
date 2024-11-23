@@ -2,9 +2,8 @@ using UnityEngine;
 
 public abstract class Task : MonoBehaviour, ITask
 {
-    public abstract string TaskName { get; }
-
-    protected GameObject targetObject;
+    public abstract string taskName { get; }
+    public GameObject taskObject { get; private set; }
     
     protected bool taskCompleted;
     
@@ -12,24 +11,24 @@ public abstract class Task : MonoBehaviour, ITask
     
     public event System.Action<Task> OnTaskCompleted;
 
-    public virtual void Initialize(GameObject targetObject = null)
+    public virtual void Initialize(GameObject taskObject)
     {
-        this.targetObject = targetObject;
+        this.taskObject = taskObject;
         taskCompleted = false;
 
-        if (this.targetObject == null)
+        if (this.taskObject == null)
         {
             Debug.LogWarning("targetObject не был установлен дл€ задани€.");
         }
     }
 
-
     public virtual void PerformTask(GameObject performer)
     {
+        Debug.Log("taskObject: " + taskObject);
         if (taskCompleted) return;
-        
         Debug.Log($"«адание {taskType} выполн€етс€ дл€ {performer.name}");
     }
+
     protected void CompleteTask()
     {
         taskCompleted = true;
@@ -40,5 +39,4 @@ public abstract class Task : MonoBehaviour, ITask
     public bool IsCompleted() => taskCompleted;
 
     public TaskType GetTaskType() => taskType;
-
 }

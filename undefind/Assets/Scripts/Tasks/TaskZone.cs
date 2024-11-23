@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class TaskZone : MonoBehaviour
 {
-    [SerializeField] private Task task;
-
+    private Task task;
+    public event System.Action<Task> OnPlayerEnteredZone;
+    public event System.Action<Task> OnPlayerLeftZone;
     private void Start()
     {
         task = GetComponentInParent<Task>();
@@ -17,8 +18,15 @@ public class TaskZone : MonoBehaviour
     {
         if (other.CompareTag("Hider") && !task.IsCompleted())
         {
-            Debug.Log($"{other.name} вошел в зону задания!");
-            task.PerformTask(other.gameObject);
+            OnPlayerEnteredZone?.Invoke(task);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Hider") && !task.IsCompleted())
+        {
+            OnPlayerLeftZone?.Invoke(task);
         }
     }
 }
