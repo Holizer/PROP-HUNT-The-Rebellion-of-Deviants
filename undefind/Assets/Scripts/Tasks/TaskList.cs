@@ -4,7 +4,7 @@ using UnityEngine;
 public class TaskList : MonoBehaviour
 {
     [Header("Параметры задач")]
-    [SerializeField] private GameObject taskUIPrefab;
+    [SerializeField] private GameObject taskItemUIPrefab;
     [SerializeField] private Transform taskUIContainer;
 
     private List<GameObject> taskUIObjects = new List<GameObject>();
@@ -18,7 +18,7 @@ public class TaskList : MonoBehaviour
 
         foreach (var task in tasks)
         {
-            GameObject taskUI = Instantiate(taskUIPrefab, taskUIContainer);
+            GameObject taskUI = Instantiate(taskItemUIPrefab, taskUIContainer);
             TaskUI taskUIComponent = taskUI.GetComponent<TaskUI>();
 
             if (taskUIComponent != null)
