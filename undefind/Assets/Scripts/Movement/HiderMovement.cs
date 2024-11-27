@@ -12,8 +12,8 @@ public class HiderMovement : MonoBehaviour
     [SerializeField] private PhotonView view;
 
     [Header("Настройки движения")]
-    public float speed = 3f;
-    public float runSpeedMultiplier = 1.5f;
+    public float speed = 2f;
+    public float runSpeedMultiplier = 2.5f;
     public float accelerationTime = 0.2f;
     public float turnSmoothTime = 0.1f;
 

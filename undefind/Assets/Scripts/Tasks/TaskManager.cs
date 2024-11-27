@@ -207,7 +207,7 @@ public class TaskManager : MonoBehaviour
         switch (task.GetTaskType())
         {
             case TaskType.Unique:
-                return "isTalking";
+                return "isPicking";
             case TaskType.Common:
                 return "isInteracting";
             default:

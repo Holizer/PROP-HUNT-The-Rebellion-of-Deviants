@@ -1,53 +1,21 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
-
-public enum NPCModel
-{
-    King,
-    Queen,
-
-    M1_RichCitizzen,
-    M2_RichCitizzen,
-
-    W1_RichCitizzen,
-    W2_RichCitizzen,
-
-    M1_Peasant,
-    M2_Peasant,
-    M3_Peasant,
-
-    W1_Peasant,
-    W2_Peasant,
-    W3_Peasant,
-    
-    M_Dweller,
-    W_Dweller
-}
 
 public class NPCManager : MonoBehaviour
 {
-    [Header("NPC Префабы")]
+    [Header("Модели крестьян")]
+    public List<GameObject> peasantModels;
 
-    private GameObject selectedNPCPrefab;
-
-    public void GenerateRandomNPC()
+    private void Start()
     {
-        NPCModel randomNPC = (NPCModel)UnityEngine.Random.Range(0, Enum.GetValues(typeof(NPCModel)).Length);
-
-        switch (randomNPC)
+        NPCFactory peasantFactory = new PeasantFactory();
+        if (peasantModels == null || peasantModels.Count == 0)
         {
-            case NPCModel.King:
-                break;
+            Debug.LogError("Список моделей крестьян не заполнен!");
+            return;
         }
 
-        if (selectedNPCPrefab != null)
-        {
-            Instantiate(selectedNPCPrefab, transform.position, Quaternion.identity);
-            Debug.Log($"Сгенерирован NPC: {randomNPC}");
-        }
-        else
-        {
-            Debug.LogError("Префаб NPC не найден.");
-        }
+        NPC peasant = peasantFactory.CreateNPC("Иван", peasantModels);
+        peasant.PerformBehavior();
     }
 }
