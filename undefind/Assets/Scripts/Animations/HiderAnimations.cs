@@ -1,12 +1,10 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HiderAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
-    public Animator animator;
+    [SerializeField] private Animator animator;
     [SerializeField] private PhotonView view;
 
     [Header("Переменные скорости")]
@@ -24,6 +22,24 @@ public class HiderAnimation : MonoBehaviour
     void Start()
     {
         view = GetComponentInParent<PhotonView>();
+
+        Transform model = transform.Find("Model");
+        if (model == null)
+        {
+            Debug.LogError("Model не найден внутри HiderPrefab!");
+            return;
+        }
+
+        animator = model.GetComponentInChildren<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Animator не найден внутри Model или его дочерних объектов!");
+            return;
+        }
+
+        PhotonAnimatorView photonAnimatorView = model.GetComponentInChildren<PhotonAnimatorView>();
+        photonAnimatorView.enabled = true;
+
         VelocityHash = Animator.StringToHash("Velocity");
     }
 

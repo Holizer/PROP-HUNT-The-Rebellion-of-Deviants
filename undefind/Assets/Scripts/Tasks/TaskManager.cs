@@ -140,8 +140,6 @@ public class TaskManager : MonoBehaviour
         taskHintUI?.SetActive(false);
 
         PlayTaskAnimation(performer, task);
-
-        task.PerformTask(performer);
     }
 
 
@@ -153,6 +151,7 @@ public class TaskManager : MonoBehaviour
             Debug.LogWarning($"Аниматор не найден у объекта {performer.name}. Анимация пропущена.");
             return;
         }
+        animator.SetFloat("Velocity", 0);
 
         string animationParameter = GetAnimationParameterForTask(task);
         Debug.Log("animationParameter " + animationParameter);
@@ -160,11 +159,11 @@ public class TaskManager : MonoBehaviour
         {
             animator.SetBool(animationParameter, true);
 
-            StartCoroutine(WaitForAnimationToComplete(animator, animationParameter));
+            StartCoroutine(WaitForAnimationToComplete(animator, animationParameter, task));
         }
     }
 
-    private IEnumerator WaitForAnimationToComplete(Animator animator, string animationParameter)
+    private IEnumerator WaitForAnimationToComplete(Animator animator, string animationParameter, Task task)
     {
         if (performer.CompareTag("Hider"))
         {
@@ -187,6 +186,8 @@ public class TaskManager : MonoBehaviour
         }
 
         animator.SetBool(animationParameter, false);
+        
+        task.PerformTask(performer);
     }
 
     private void HandleHider(GameObject hider, bool isEnabled)
@@ -204,16 +205,15 @@ public class TaskManager : MonoBehaviour
 
     private string GetAnimationParameterForTask(Task task)
     {
-        switch (task.GetTaskType())
+        string animationParameter = task.animationParameter;
+
+        if (!string.IsNullOrEmpty(animationParameter))
         {
-            case TaskType.Unique:
-                return "isPicking";
-            case TaskType.Common:
-                return "isInteracting";
-            default:
-                Debug.LogWarning($"Неизвестный тип задания: {task.GetTaskType()}");
-                return string.Empty;
+            return animationParameter;
         }
+
+        Debug.LogWarning($"Неизвестный тип задания: {task.GetTaskType()}");
+        return string.Empty;
     }
 
     #endregion

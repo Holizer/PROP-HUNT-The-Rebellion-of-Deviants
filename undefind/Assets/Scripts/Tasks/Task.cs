@@ -8,6 +8,8 @@ public abstract class Task : MonoBehaviour, ITask
     protected bool taskCompleted;
     
     protected TaskType taskType;
+
+    public virtual string animationParameter => string.Empty;
     
     public event System.Action<Task> OnTaskCompleted;
 

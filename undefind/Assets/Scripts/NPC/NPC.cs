@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public abstract class NPC : MonoBehaviour
 {
     [Header("Основные параметры NPC")]

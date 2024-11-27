@@ -1,6 +1,5 @@
 using UnityEngine;
 using Photon.Pun;
-
 public class PlayerManager : MonoBehaviour
 {
     [Header("Префабы")]
@@ -35,9 +34,36 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Vector3 spawnPosition = GetSpawnPosition(hiderSpawnArea);
-            currentPlayer = PhotonNetwork.Instantiate(hiderPrefab.name, spawnPosition, Quaternion.identity);
+            AssignNPCToHider(spawnPosition);
         }
     }
+
+    private void AssignNPCToHider(Vector3 spawnPosition)
+    {
+        if (NPCManager.NPCInstances == null || NPCManager.NPCInstances.Count == 0)
+        {
+            Debug.LogError("Нет доступных NPC для назначения Hider!");
+            return;
+        }
+
+        currentPlayer = PhotonNetwork.Instantiate(hiderPrefab.name, spawnPosition, Quaternion.identity);
+        
+        Transform modelContainer = currentPlayer.transform.Find("Model");
+        if (modelContainer == null)
+        {
+            Debug.LogError("Model не найден внутри HiderPrefab!");
+            return;
+        }
+
+        int randomIndex = Random.Range(0, NPCManager.NPCInstances.Count - 1);
+        GameObject selectedNPC = NPCManager.NPCInstances[randomIndex];
+        
+        GameObject npcModel = Instantiate(selectedNPC, modelContainer.position, modelContainer.rotation, modelContainer);
+        npcModel.name = selectedNPC.name;
+
+        Debug.Log($"Hider получил модель NPC: {currentPlayer.name}");
+    }
+
     private Vector3 GetSpawnPosition(GameObject spawnArea)
     {
         Bounds bounds = spawnArea.GetComponent<BoxCollider>().bounds;

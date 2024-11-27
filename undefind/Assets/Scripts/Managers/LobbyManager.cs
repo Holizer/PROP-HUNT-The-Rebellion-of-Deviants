@@ -2,7 +2,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using ExitGames.Client.Photon;
 using System.Collections;
 using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
@@ -142,7 +141,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         UpdateCountdownText("Игра начинается!");
         yield return new WaitForSeconds(1);
 
-        LogPlayerRoles();
+        //LogPlayerRoles();
 
         StartGame();
     }
@@ -160,8 +159,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
             players[i].SetCustomProperties(playerProperties);
-
-            Debug.Log($"Роль назначена: Игрок {players[i].NickName} — Роль: {role}");
         }
     }
     private void StartGame()
