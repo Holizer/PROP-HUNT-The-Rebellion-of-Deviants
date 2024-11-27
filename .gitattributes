@@ -1,0 +1,9 @@
+# Нормализация окончаний строк для текстовых файлов
+* text=auto
+
+# Исключение бинарных файлов из нормализации
+*.meta binary
+*.fbx binary
+*.prefab binary
+*.anim binary
+*.controller binary
