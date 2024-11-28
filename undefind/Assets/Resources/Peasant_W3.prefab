@@ -241,7 +241,7 @@ PrefabInstance:
       addedObject: {fileID: 7897702165732663927}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b701f3d1c646eef4da84b0876c62bd8b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3993671630747766002}
+      addedObject: {fileID: 1231471263176413003}
   m_SourcePrefab: {fileID: 100100000, guid: b701f3d1c646eef4da84b0876c62bd8b, type: 3}
 --- !u!1 &714679414091960009 stripped
 GameObject:
@@ -269,7 +269,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3993671630747766002
+--- !u!114 &1231471263176413003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,7 +289,7 @@ MonoBehaviour:
     Name: Velocity
   - Type: 4
     SynchronizeType: 1
-    Name: isTalking
+    Name: isPicking
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

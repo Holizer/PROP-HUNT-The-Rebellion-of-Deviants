@@ -48,6 +48,10 @@ MonoBehaviour:
   - SyncHunterAnimationParameters
   - StartGame
   - NetworkShoot
+  - AssignNPCModelToAll
+  - NotifyHunterAboutModel
+  - AssignRandomNPCModel
+  - SyncModelOnAllClients
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

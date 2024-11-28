@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 public class HunterAimPosition : MonoBehaviour
 {
     [Header("Компоненты")]
-    public ThirdPersonCamera camera;
+    public ThirdPersonCamera thirdPersonCamera;
 
     public Rig animationRig;
     public RigController rigController;
@@ -46,14 +46,14 @@ public class HunterAimPosition : MonoBehaviour
     private void EnterAimingMode()
     {
         isAiming = true;
-        camera.SetState(new AimingCameraState(camera, aimPosition, rigController, rigBuilder, animationRig, aimTarget));
+        thirdPersonCamera.SetState(new AimingCameraState(thirdPersonCamera, aimPosition, rigController, rigBuilder, animationRig, aimTarget));
         SetCrosshairVisibility(true);
     }
 
     private void ExitAimingMode()
     {
         isAiming = false;
-        camera.SetState(new NormalCameraState(camera));
+        thirdPersonCamera.SetState(new NormalCameraState(thirdPersonCamera));
         SetCrosshairVisibility(false);
     }
 
@@ -68,18 +68,18 @@ public class HunterAimPosition : MonoBehaviour
 
     private void UpdateAimPosition()
     {
-        if (camera != null && aimPosition != null && player != null)
+        if (thirdPersonCamera != null && aimPosition != null && player != null)
         {
-            Vector3 cameraForward = camera.transform.forward;
+            Vector3 cameraForward = thirdPersonCamera.transform.forward;
             cameraForward.y = 0f;
-            Vector3 cameraRight = camera.transform.right;
+            Vector3 cameraRight = thirdPersonCamera.transform.right;
             
             Vector3 horizontalOffset = cameraForward * aimOffset.z + cameraRight * aimOffset.x;
             Vector3 targetPosition = player.position + horizontalOffset;
             targetPosition.y = player.position.y + aimOffset.y;
 
             aimPosition.position = targetPosition;
-            aimPosition.LookAt(camera.GetLastAimPoint());
+            aimPosition.LookAt(thirdPersonCamera.GetLastAimPoint());
         }
     }
 }

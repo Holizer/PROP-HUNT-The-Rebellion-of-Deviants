@@ -6,10 +6,10 @@ public class HiderMovement : MonoBehaviour
 {
     [Header("Компоненты")]
     public CharacterController controller;
-    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
-
     public Transform cameraTransform;
-    [SerializeField] private PhotonView view;
+    
+    private ThirdPersonCamera thirdPersonCamera;
+    private PhotonView view;
 
     [Header("Настройки движения")]
     public float speed = 2f;
@@ -29,7 +29,7 @@ public class HiderMovement : MonoBehaviour
     public float terminalVelocity = -53f;
     void Start()
     {
-        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+        thirdPersonCamera = cameraTransform.GetComponent<ThirdPersonCamera>();
         view = GetComponent<PhotonView>();
         currentSpeed = speed;
         targetSpeed = speed;

@@ -5,7 +5,7 @@ public class HiderAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
     [SerializeField] private Animator animator;
-    [SerializeField] private PhotonView view;
+    private PhotonView view;
 
     [Header("Переменные скорости")]
     float velocity = 0.0f;
@@ -22,25 +22,17 @@ public class HiderAnimation : MonoBehaviour
     void Start()
     {
         view = GetComponentInParent<PhotonView>();
+        VelocityHash = Animator.StringToHash("Velocity");
 
-        Transform model = transform.Find("Model");
-        if (model == null)
-        {
-            Debug.LogError("Model не найден внутри HiderPrefab!");
-            return;
-        }
-
-        animator = model.GetComponentInChildren<Animator>();
+        animator = transform.GetComponentInChildren<Animator>();
         if (animator == null)
         {
-            Debug.LogError("Animator не найден внутри Model или его дочерних объектов!");
+            Debug.LogError("Animator не найден внутри HiderController или его дочерних объектов!");
             return;
         }
 
-        PhotonAnimatorView photonAnimatorView = model.GetComponentInChildren<PhotonAnimatorView>();
+        PhotonAnimatorView photonAnimatorView = transform.GetComponentInChildren<PhotonAnimatorView>();
         photonAnimatorView.enabled = true;
-
-        VelocityHash = Animator.StringToHash("Velocity");
     }
 
 

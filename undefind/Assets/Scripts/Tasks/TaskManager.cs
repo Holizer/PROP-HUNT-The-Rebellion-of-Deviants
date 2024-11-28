@@ -103,19 +103,6 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    private void TurnPlayerToTask(Task task)
-    {
-        if (performer != null)
-        {
-            Vector3 targetPosition = task.transform.position;
-            Vector3 direction = targetPosition - performer.transform.position;
-            direction.y = 0;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            performer.transform.rotation = targetRotation;
-        }
-    }
-
     #endregion
 
     #region PerfomTaskLogic
@@ -136,12 +123,11 @@ public class TaskManager : MonoBehaviour
             return;
         }
 
-        TurnPlayerToTask(task);
+        TurnPlayerToTask(task); // Поворот к задаче
         taskHintUI?.SetActive(false);
 
         PlayTaskAnimation(performer, task);
     }
-
 
     private void PlayTaskAnimation(GameObject performer, Task task)
     {
@@ -151,15 +137,28 @@ public class TaskManager : MonoBehaviour
             Debug.LogWarning($"Аниматор не найден у объекта {performer.name}. Анимация пропущена.");
             return;
         }
-        animator.SetFloat("Velocity", 0);
 
         string animationParameter = GetAnimationParameterForTask(task);
-        Debug.Log("animationParameter " + animationParameter);
         if (!string.IsNullOrEmpty(animationParameter))
         {
+            Debug.Log($"Попытка включить анимацию '{animationParameter}' для задачи '{task.GetTaskType()}'.");
+
+            // Сброс скорости, чтобы предотвратить конфликт переходов
+            animator.SetFloat("Velocity", 0f);
+
+            // Установка параметра для активации анимации
             animator.SetBool(animationParameter, true);
 
+            // Проверка текущего состояния перед запуском анимации
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            Debug.Log($"Текущее состояние: {stateInfo.shortNameHash}, Normalized Time: {stateInfo.normalizedTime}");
+
+            // Ожидание завершения анимации
             StartCoroutine(WaitForAnimationToComplete(animator, animationParameter, task));
+        }
+        else
+        {
+            Debug.LogWarning("Анимация не была найдена. Параметр пуст.");
         }
     }
 
@@ -167,11 +166,11 @@ public class TaskManager : MonoBehaviour
     {
         if (performer.CompareTag("Hider"))
         {
-            HandleHider(performer, false);
+            HandleHider(performer, false); // Отключаем движения для Hider
         }
 
+        // Ждем завершения анимации
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
         while (stateInfo.normalizedTime < 1.0f)
         {
             yield return null;
@@ -182,11 +181,14 @@ public class TaskManager : MonoBehaviour
 
         if (performer.CompareTag("Hider"))
         {
-            HandleHider(performer, true);
+            HandleHider(performer, true); // Включаем движения для Hider
         }
 
+        // Отключаем флаг анимации
         animator.SetBool(animationParameter, false);
-        
+        Debug.Log($"Анимация '{animationParameter}' завершена.");
+
+        // Выполняем задание
         task.PerformTask(performer);
     }
 
@@ -216,5 +218,16 @@ public class TaskManager : MonoBehaviour
         return string.Empty;
     }
 
+    private void TurnPlayerToTask(Task task)
+    {
+        if (task == null) return;
+
+        Vector3 taskDirection = (task.transform.position - performer.transform.position).normalized;
+        taskDirection.y = 0; // Игнорируем ось Y
+        performer.transform.rotation = Quaternion.LookRotation(taskDirection);
+
+        Debug.Log($"Персонаж повернут к заданию: {task.GetTaskType()}");
+    }
+    
     #endregion
 }

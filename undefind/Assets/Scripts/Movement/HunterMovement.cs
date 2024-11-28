@@ -6,18 +6,16 @@ public class HunterMovement : MonoBehaviourPun
 {
     [Header("Компоненты")]
     public CharacterController controller;
-    public GameObject model;
     public Transform cameraTransform;
-    [SerializeField] private PhotonView view;
-    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
+    private PhotonView view;
+    private ThirdPersonCamera thirdPersonCamera;
 
     [Header("Настройки движения")]
-    public float speed = 3f;
-    public float runSpeedMultiplier = 1.5f;
+    public float speed = 2f;
+    public float runSpeedMultiplier = 2.5f;
     public float accelerationTime = 0.2f;
     public float turnSmoothTime = 0.1f;
 
-    [SerializeField] private Animator animator;
     [SerializeField] private float turnSmoothVelocity;
     [SerializeField] private float currentSpeed;
     [SerializeField] private float targetSpeed;
@@ -30,7 +28,7 @@ public class HunterMovement : MonoBehaviourPun
     void Start()
     {
         view = GetComponent<PhotonView>();
-        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+        thirdPersonCamera = cameraTransform.GetComponent<ThirdPersonCamera>();
         currentSpeed = speed;
         targetSpeed = speed;
     }
@@ -84,7 +82,7 @@ public class HunterMovement : MonoBehaviourPun
     void HandleAimingRotation()
     {
         Vector3 aimTargetPoint = thirdPersonCamera.CalculateAimPoint();
-        Vector3 aimDirection = aimTargetPoint - model.transform.position;
+        Vector3 aimDirection = aimTargetPoint - transform.position;
         aimDirection.y = 0;
 
         HandleRotation(aimDirection);
@@ -95,14 +93,9 @@ public class HunterMovement : MonoBehaviourPun
         if (direction != Vector3.zero)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float smoothAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-            model.transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
-
-            if (view.IsMine)
-            {
-                view.RPC("SyncRotation", RpcTarget.Others, smoothAngle);
-            }
+            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
         }
     }
 
@@ -124,11 +117,5 @@ public class HunterMovement : MonoBehaviourPun
 
         Vector3 gravityMove = new Vector3(0f, fallSpeed, 0f);
         controller.Move(gravityMove * Time.deltaTime);
-    }
-
-    [PunRPC]
-    void SyncRotation(float angle)
-    {
-        model.transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 }
