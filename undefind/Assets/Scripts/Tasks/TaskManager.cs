@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +14,21 @@ public class TaskManager : MonoBehaviour
     [Header("UI Подсказака управления")]
     public GameObject taskHintUI;
     private Task currentTask;
+    
+    public static TaskManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -63,6 +77,21 @@ public class TaskManager : MonoBehaviour
         }
     }
 
+    public void SetPerformer(GameObject newPerformer)
+    {
+        performer = newPerformer;
+
+        if (performer.CompareTag("Hider"))
+        {
+            Debug.Log("Performer - игрок");
+        }
+        else if (performer.CompareTag("NPC"))
+        {
+            Debug.Log("Performer - бот");
+        }
+    }
+
+
     #region TaskZoneLogic
 
     private Vector3 initialPosition;
@@ -72,6 +101,7 @@ public class TaskManager : MonoBehaviour
     {
         task.OnTaskCompleted += HandleTaskCompleted;
     }
+
     private void SetTaskZoneEventHandlers(Task task)
     {
         TaskZone taskZone = task.GetComponentInChildren<TaskZone>();
@@ -86,6 +116,7 @@ public class TaskManager : MonoBehaviour
     {
         taskList.UpdateTaskUI(tasks);
     }
+
     private void HandlePlayerLeftZone(Task task)
     {
         currentTask = null;
@@ -94,6 +125,7 @@ public class TaskManager : MonoBehaviour
             taskHintUI.SetActive(false);
         }
     }
+
     private void HandlePlayerEnteredZone(Task task)
     {
         currentTask = task;
@@ -123,7 +155,7 @@ public class TaskManager : MonoBehaviour
             return;
         }
 
-        TurnPlayerToTask(task); // Поворот к задаче
+        TurnPlayerToTask(task);
         taskHintUI?.SetActive(false);
 
         PlayTaskAnimation(performer, task);
@@ -134,26 +166,17 @@ public class TaskManager : MonoBehaviour
         Animator animator = performer.GetComponentInChildren<Animator>();
         if (animator == null)
         {
-            Debug.LogWarning($"Аниматор не найден у объекта {performer.name}. Анимация пропущена.");
+            //Debug.LogWarning($"Аниматор не найден у объекта {performer.name}. Анимация пропущена.");
             return;
         }
 
         string animationParameter = GetAnimationParameterForTask(task);
         if (!string.IsNullOrEmpty(animationParameter))
         {
-            Debug.Log($"Попытка включить анимацию '{animationParameter}' для задачи '{task.GetTaskType()}'.");
+            //Debug.Log($"Попытка включить анимацию '{animationParameter}' для задачи '{task.GetTaskType()}'.");
 
-            // Сброс скорости, чтобы предотвратить конфликт переходов
-            animator.SetFloat("Velocity", 0f);
-
-            // Установка параметра для активации анимации
             animator.SetBool(animationParameter, true);
 
-            // Проверка текущего состояния перед запуском анимации
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            Debug.Log($"Текущее состояние: {stateInfo.shortNameHash}, Normalized Time: {stateInfo.normalizedTime}");
-
-            // Ожидание завершения анимации
             StartCoroutine(WaitForAnimationToComplete(animator, animationParameter, task));
         }
         else
@@ -166,29 +189,30 @@ public class TaskManager : MonoBehaviour
     {
         if (performer.CompareTag("Hider"))
         {
-            HandleHider(performer, false); // Отключаем движения для Hider
+            HandleHider(performer, false);
         }
+        
+        yield return new WaitForSeconds(0.5f);
 
-        // Ждем завершения анимации
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        while (stateInfo.normalizedTime < 1.0f)
+
+        float animationLength = stateInfo.length;
+        float adjustedLength = animationLength / animator.speed;
+        //Debug.Log($"Длительность анимации: {adjustedLength} секунд.");
+
+        float startTime = Time.time;
+        while (Time.time - startTime < adjustedLength)
         {
-            yield return null;
-            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null; 
         }
 
-        yield return new WaitForSeconds(0.1f);
-
+        animator.SetBool(animationParameter, false);
+        
         if (performer.CompareTag("Hider"))
         {
-            HandleHider(performer, true); // Включаем движения для Hider
+            HandleHider(performer, true);
         }
 
-        // Отключаем флаг анимации
-        animator.SetBool(animationParameter, false);
-        Debug.Log($"Анимация '{animationParameter}' завершена.");
-
-        // Выполняем задание
         task.PerformTask(performer);
     }
 
@@ -200,9 +224,10 @@ public class TaskManager : MonoBehaviour
             return;
         }
 
-        // Отключаем/включаем движение и анимацию
-        ComponentUtils.ToggleComponent<HiderMovement>(hider, isEnabled);
-        ComponentUtils.ToggleComponent<HiderAnimation>(hider, isEnabled);
+        GameObject scriptsContainer = hider.transform.Find("Scripts")?.gameObject;
+        
+        ComponentUtils.ToggleComponent<HiderMovement>(scriptsContainer, isEnabled);
+        ComponentUtils.ToggleComponent<HiderAnimation>(scriptsContainer, isEnabled);
     }
 
     private string GetAnimationParameterForTask(Task task)
@@ -217,17 +242,18 @@ public class TaskManager : MonoBehaviour
         Debug.LogWarning($"Неизвестный тип задания: {task.GetTaskType()}");
         return string.Empty;
     }
-
     private void TurnPlayerToTask(Task task)
     {
-        if (task == null) return;
+        if (performer != null)
+        {
+            Vector3 targetPosition = task.transform.position;
+            Vector3 direction = targetPosition - performer.transform.position;
+            direction.y = 0;
 
-        Vector3 taskDirection = (task.transform.position - performer.transform.position).normalized;
-        taskDirection.y = 0; // Игнорируем ось Y
-        performer.transform.rotation = Quaternion.LookRotation(taskDirection);
-
-        Debug.Log($"Персонаж повернут к заданию: {task.GetTaskType()}");
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            performer.transform.rotation = targetRotation;
+        }
     }
-    
+
     #endregion
 }

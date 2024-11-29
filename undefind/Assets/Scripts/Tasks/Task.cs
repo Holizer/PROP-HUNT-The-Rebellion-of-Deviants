@@ -26,8 +26,8 @@ public abstract class Task : MonoBehaviour, ITask
 
     public virtual void PerformTask(GameObject performer)
     {
-        Debug.Log("taskObject: " + taskObject);
         if (taskCompleted) return;
+
         Debug.Log($"Задание {taskType} выполняется для {performer.name}");
     }
 

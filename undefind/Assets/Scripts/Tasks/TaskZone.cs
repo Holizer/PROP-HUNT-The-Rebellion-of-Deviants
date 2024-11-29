@@ -19,6 +19,7 @@ public class TaskZone : MonoBehaviour
         if (other.CompareTag("Hider") && !task.IsCompleted())
         {
             OnPlayerEnteredZone?.Invoke(task);
+            TaskManager.Instance.SetPerformer(other.gameObject);
         }
     }
 

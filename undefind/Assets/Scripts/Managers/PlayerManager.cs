@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour
     private void AssignNPCToHider(Vector3 spawnPosition)
     {
         currentPlayer = PhotonNetwork.Instantiate(hiderPrefab.name, spawnPosition, Quaternion.identity);
-        HiderModelManager modelManager = currentPlayer.GetComponentInChildren<HiderModelManager>();
+        HiderModelManager modelManager = currentPlayer.GetComponent<HiderModelManager>();
         if (modelManager == null)
         {
             Debug.LogError("HiderModelManager не найден на объекте " + currentPlayer.name);

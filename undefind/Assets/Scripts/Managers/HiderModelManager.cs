@@ -23,11 +23,15 @@ public class HiderModelManager : MonoBehaviourPun
             Destroy(currentModel);
         }
 
-        // Инстанциируем модель
-        currentModel = Instantiate(selectedModel, transform.position, transform.rotation, transform);
+        Transform model = transform.Find("Model");
+        if (model == null)
+        {
+            Debug.LogError("Не найден конетйнер Model!");
+            return;
+        }
+        currentModel = Instantiate(selectedModel, model.position, model.rotation, model);
         currentModel.name = selectedModel.name;
 
-        // Настройка анимации (если есть)
         PhotonAnimatorView photonAnimationView = currentModel.GetComponent<PhotonAnimatorView>();
         if (photonAnimationView != null)
         {
@@ -35,7 +39,6 @@ public class HiderModelManager : MonoBehaviourPun
             photonView.ObservedComponents.Add(photonAnimationView);
         }
 
-        // Вызов RPC для синхронизации модели на других клиентах
         photonView.RPC("SyncModelOnAllClients", RpcTarget.Others, selectedModel.name);
     }
 
@@ -48,7 +51,13 @@ public class HiderModelManager : MonoBehaviourPun
         {
             if (currentModel == null)
             {
-                currentModel = Instantiate(selectedModel, transform.position, transform.rotation, transform);
+                Transform model = transform.Find("Model");
+                if (model == null)
+                {
+                    Debug.LogError("Не найден конетйнер Model!");
+                    return;
+                }
+                currentModel = Instantiate(selectedModel, model.position, model.rotation, model);
                 currentModel.name = selectedModel.name;
 
                 PhotonAnimatorView photonAnimationView = currentModel.GetComponentInChildren<PhotonAnimatorView>();

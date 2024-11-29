@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 517526577870677667}
   - component: {fileID: 131354072870589643}
   - component: {fileID: 2765388442091221875}
-  - component: {fileID: 8708258798511248929}
   - component: {fileID: 773511502187569235}
   - component: {fileID: 6514147653509901428}
+  - component: {fileID: 4131927191727117185}
   m_Layer: 0
   m_Name: HunterController
   m_TagString: Untagged
@@ -152,26 +152,6 @@ MonoBehaviour:
   quickStopMultiplier: 4
   pistolAcceleration: 0.8
   pistolDeceleration: 1
---- !u!114 &8708258798511248929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43796896332551279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360355d5e11da114bb35dadefcf18610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  componentsToDisable:
-  - {fileID: 131354072870589643}
-  - {fileID: 2765388442091221875}
-  objectsToDisable:
-  - {fileID: 2050563657573094591}
-  - {fileID: 7617839819351937462}
-  - {fileID: 2953292587273294978}
-  - {fileID: 6299322131899197732}
 --- !u!114 &773511502187569235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +179,26 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43796896332551279}
   m_Enabled: 1
+--- !u!114 &4131927191727117185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43796896332551279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360355d5e11da114bb35dadefcf18610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  componentsToDisable:
+  - {fileID: 131354072870589643}
+  - {fileID: 2765388442091221875}
+  objectsToDisable:
+  - {fileID: 2050563657573094591}
+  - {fileID: 7617839819351937462}
+  - {fileID: 2953292587273294978}
+  - {fileID: 6299322131899197732}
 --- !u!1 &89179249618095065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3675,15 +3675,15 @@ PrefabInstance:
       objectReference: {fileID: 9059224359036969429}
     - target: {fileID: 6969640011097138052, guid: e1e88d7e5e3eeb847af6a799f8eeba42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.2530699
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 6969640011097138052, guid: e1e88d7e5e3eeb847af6a799f8eeba42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6969640011097138052, guid: e1e88d7e5e3eeb847af6a799f8eeba42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.6098385
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6969640011097138052, guid: e1e88d7e5e3eeb847af6a799f8eeba42, type: 3}
       propertyPath: m_LocalRotation.w

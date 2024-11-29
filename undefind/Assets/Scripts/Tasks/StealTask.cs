@@ -13,7 +13,7 @@ public class StealTask : Task
     public override void PerformTask(GameObject performer)
     {
         base.PerformTask(performer);
-
+        Debug.Log("performer: " + performer);
         if (performer.CompareTag("Hider"))
         {
             base.CompleteTask();
@@ -23,6 +23,7 @@ public class StealTask : Task
             Debug.Log($"{performer.name} успешно украл предмет!");
         }
     }
+
     private void DestroyTaskAndZone()
     {
         Destroy(gameObject);

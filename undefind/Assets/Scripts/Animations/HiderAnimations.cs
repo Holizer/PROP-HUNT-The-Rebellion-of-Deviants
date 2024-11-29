@@ -5,7 +5,7 @@ public class HiderAnimation : MonoBehaviour
 {
     [Header("Компоненты")]
     [SerializeField] private Animator animator;
-    private PhotonView view;
+    [SerializeField] private PhotonView view;
 
     [Header("Переменные скорости")]
     float velocity = 0.0f;
@@ -18,22 +18,43 @@ public class HiderAnimation : MonoBehaviour
     
     [Header("Хеши анимаций")]
     int VelocityHash;
+    int PickingHash;
 
     void Start()
     {
-        view = GetComponentInParent<PhotonView>();
-        VelocityHash = Animator.StringToHash("Velocity");
-
-        animator = transform.GetComponentInChildren<Animator>();
-        if (animator == null)
+        Transform model = transform.parent.Find("Model");
+        if (model == null)
         {
-            Debug.LogError("Animator не найден внутри HiderController или его дочерних объектов!");
+            Debug.LogError("Не найден контейнер Model!");
             return;
         }
 
-        PhotonAnimatorView photonAnimatorView = transform.GetComponentInChildren<PhotonAnimatorView>();
+        animator = model.GetComponentInChildren<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("Animator не найден внутри Model или его дочерних объектов!");
+            return;
+        }
+
+        view = model.parent.GetComponent<PhotonView>();
+        if (view == null)
+        {
+            Debug.LogError("PhotonView не найден на объекте!");
+            return;
+        }
+
+        VelocityHash = Animator.StringToHash("Velocity");
+        //PickingHash = Animator.StringToHash("Picking");
+
+        PhotonAnimatorView photonAnimatorView = model.GetComponentInChildren<PhotonAnimatorView>();
+        if (photonAnimatorView == null)
+        {
+            Debug.LogError("PhotonAnimatorView не найден на объекте!");
+            return;
+        }
         photonAnimatorView.enabled = true;
     }
+
 
 
     void Update()
