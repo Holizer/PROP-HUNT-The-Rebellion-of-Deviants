@@ -7,7 +7,7 @@ public class NPCManager : MonoBehaviour
     public List<GameObject> peasantModels;
     public static List<GameObject> NPCInstances { get; private set; } = new List<GameObject>();
 
-    private void Start()
+    void Awake()
     {
         SpawnAllNPCs();
     }
