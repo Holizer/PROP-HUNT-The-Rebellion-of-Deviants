@@ -224,10 +224,8 @@ public class TaskManager : MonoBehaviour
             return;
         }
 
-        GameObject scriptsContainer = hider.transform.Find("Scripts")?.gameObject;
-        
-        ComponentUtils.ToggleComponent<HiderMovement>(scriptsContainer, isEnabled);
-        ComponentUtils.ToggleComponent<HiderAnimation>(scriptsContainer, isEnabled);
+        ComponentUtils.ToggleComponent<HiderMovement>(hider, isEnabled);
+        ComponentUtils.ToggleComponent<HiderAnimation>(hider, isEnabled);
     }
 
     private string GetAnimationParameterForTask(Task task)

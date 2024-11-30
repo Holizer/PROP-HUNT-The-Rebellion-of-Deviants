@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class HunterAnimation : MonoBehaviour
 {
-    [Header("Компоненты")]
+    [Header("Аниматор")]
     public Animator animator;
-    [SerializeField] private PhotonView view;
+    
+    [Header("Камера")]
+    public Transform cameraTransform;
     [SerializeField] private ThirdPersonCamera thirdPersonCamera;
+    
+    private PhotonView view;
 
     [Header("Переменные скорости")]
     private float velocity = 0.0f;
@@ -29,8 +33,12 @@ public class HunterAnimation : MonoBehaviour
 
     void Start()
     {
-        view = GetComponentInParent<PhotonView>();
-        thirdPersonCamera = FindObjectOfType<ThirdPersonCamera>();
+        view = GetComponent<PhotonView>();
+        
+        if(thirdPersonCamera == null)
+        {
+            thirdPersonCamera = cameraTransform.GetComponent<ThirdPersonCamera>();
+        }
 
         VelocityHash = Animator.StringToHash("Velocity");
         PistolVelocityHash = Animator.StringToHash("PistolVelocity");

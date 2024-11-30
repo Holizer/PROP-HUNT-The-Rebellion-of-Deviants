@@ -42,7 +42,7 @@ public class HiderMovement : MonoBehaviour
             return;
         }
         
-        view = transform.parent.GetComponent<PhotonView>();
+        view = player.GetComponent<PhotonView>();
         if (view == null)
         {
             Debug.LogError("PhotonView не найден в дочерних объектах Hider.");

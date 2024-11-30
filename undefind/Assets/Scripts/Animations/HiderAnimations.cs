@@ -18,11 +18,10 @@ public class HiderAnimation : MonoBehaviour
     
     [Header("Хеши анимаций")]
     int VelocityHash;
-    int PickingHash;
 
     void Start()
     {
-        Transform model = transform.parent.Find("Model");
+        Transform model = transform.Find("Model");
         if (model == null)
         {
             Debug.LogError("Не найден контейнер Model!");
@@ -36,7 +35,7 @@ public class HiderAnimation : MonoBehaviour
             return;
         }
 
-        view = model.parent.GetComponent<PhotonView>();
+        view = transform.GetComponent<PhotonView>();
         if (view == null)
         {
             Debug.LogError("PhotonView не найден на объекте!");
@@ -44,7 +43,6 @@ public class HiderAnimation : MonoBehaviour
         }
 
         VelocityHash = Animator.StringToHash("Velocity");
-        //PickingHash = Animator.StringToHash("Picking");
 
         PhotonAnimatorView photonAnimatorView = model.GetComponentInChildren<PhotonAnimatorView>();
         if (photonAnimatorView == null)
@@ -54,8 +52,6 @@ public class HiderAnimation : MonoBehaviour
         }
         photonAnimatorView.enabled = true;
     }
-
-
 
     void Update()
     {
@@ -99,17 +95,7 @@ public class HiderAnimation : MonoBehaviour
         {
             velocity = 0.0f;
         }
-
-        if (view.IsMine)
-        {
-            view.RPC("SyncHiderAnimationParameters", RpcTarget.Others, velocity);
-        }
-        animator.SetFloat(VelocityHash, velocity);
-    }
-
-    [PunRPC]
-    void SyncHiderAnimationParameters(float velocity)
-    {
+       
         animator.SetFloat(VelocityHash, velocity);
     }
 }

@@ -2,13 +2,20 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class HunterMovement : MonoBehaviourPun
+public class HunterMovement : MonoBehaviourPun, IPunObservable
 {
     [Header("Компоненты")]
-    public CharacterController controller;
+    public Transform player;
+    [SerializeField] private CharacterController controller;
+
+    [Header("Камера")]
     public Transform cameraTransform;
+    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
+
+    [Header("Игровая модель")]
+    public Transform playerModel;
+
     private PhotonView view;
-    private ThirdPersonCamera thirdPersonCamera;
 
     [Header("Настройки движения")]
     public float speed = 2f;
@@ -25,12 +32,26 @@ public class HunterMovement : MonoBehaviourPun
     public float gravity = -9.8f;
     public float fallSpeed = 0f;
     public float terminalVelocity = -53f;
+
+    private float targetAngle; // Добавлено для плавного угла поворота
+
     void Start()
     {
-        view = GetComponent<PhotonView>();
-        thirdPersonCamera = cameraTransform.GetComponent<ThirdPersonCamera>();
+        view = player.GetComponent<PhotonView>();
+
+        if (controller == null)
+        {
+            controller = player.GetComponent<CharacterController>();
+        }
+
+        if (thirdPersonCamera == null)
+        {
+            thirdPersonCamera = cameraTransform.GetComponent<ThirdPersonCamera>();
+        }
+
         currentSpeed = speed;
         targetSpeed = speed;
+        targetAngle = playerModel.eulerAngles.y;
     }
 
     void Update()
@@ -47,6 +68,11 @@ public class HunterMovement : MonoBehaviourPun
             }
 
             HandleGravity();
+        }
+        else
+        {
+            float smoothAngle = Mathf.SmoothDampAngle(playerModel.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            playerModel.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
         }
     }
 
@@ -82,7 +108,7 @@ public class HunterMovement : MonoBehaviourPun
     void HandleAimingRotation()
     {
         Vector3 aimTargetPoint = thirdPersonCamera.CalculateAimPoint();
-        Vector3 aimDirection = aimTargetPoint - transform.position;
+        Vector3 aimDirection = aimTargetPoint - playerModel.transform.position;
         aimDirection.y = 0;
 
         HandleRotation(aimDirection);
@@ -92,10 +118,11 @@ public class HunterMovement : MonoBehaviourPun
     {
         if (direction != Vector3.zero)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            float newTargetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(playerModel.eulerAngles.y, newTargetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+            playerModel.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+            targetAngle = newTargetAngle;
         }
     }
 
@@ -117,5 +144,32 @@ public class HunterMovement : MonoBehaviourPun
 
         Vector3 gravityMove = new Vector3(0f, fallSpeed, 0f);
         controller.Move(gravityMove * Time.deltaTime);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            float angle = playerModel.transform.rotation.eulerAngles.y;
+            //Debug.Log($"Sending rotation angle: {angle}");
+            stream.SendNext(angle);
+        }
+        else
+        {
+            // Получаем поворот с другого клиента
+            if (stream.Count > 0)
+            {
+                object received = stream.ReceiveNext();
+                if (received is float receivedAngle)
+                {
+                    //Debug.Log($"Received rotation angle: {receivedAngle}");
+                    targetAngle = receivedAngle;
+                }
+                else
+                {
+                    //Debug.LogError("Received data is not a float.");
+                }
+            }
+        }
     }
 }
