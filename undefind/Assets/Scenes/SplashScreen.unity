@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 9e7f8198e4fe82b49914fff32f7ee521
+  m_OcclusionCullingData: {fileID: 36300000, guid: 6d399fc9ebb945e4cbf0e6acbbe2b9f4, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 12ccb828343c3405fb94289774b51aad, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a06028ba4c5de4e4ba24c861712beaca, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -96,8 +96,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000004, guid: aecd89e9b29d3e34cb44b31812e42d0f, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: dcdd1195f3e58644680a8a674e1dc49f, type: 2}
+  m_LightingDataAsset: {fileID: 112000004, guid: 6853ea36d2e67f7498f6e668fd5efa9a, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 6176e40002abb9c40ad41551baa69eff, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2

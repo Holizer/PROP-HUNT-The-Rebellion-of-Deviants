@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maxwell
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 81ee2615e74be4e40a59d1846c48cbce, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -91,7 +95,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c4ee109e9982c41408c056c4e8a888b1, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

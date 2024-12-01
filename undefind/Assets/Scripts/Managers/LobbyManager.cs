@@ -155,7 +155,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < players.Count; i++)
         {
-            string role = (i == hunterIndex) ? "Hider" : "Hunter"; 
+            string role = (i == hunterIndex) ? "Hunter" : "Hider"; 
 
             PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
             players[i].SetCustomProperties(playerProperties);
@@ -170,7 +170,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel(Scene.GameMap.ToString());
         }
     }
-
 
     private void LogPlayerRoles()
     {

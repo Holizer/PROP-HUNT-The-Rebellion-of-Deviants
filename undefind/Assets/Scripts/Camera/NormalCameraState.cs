@@ -38,7 +38,7 @@ public class NormalCameraState : BaseCameraState
     public override void LateUpdateState()
     {
         Quaternion rotation = camera.GetRotation();
-        Vector3 heightOffset = new Vector3(0, 1.5f, 0);
+        Vector3 heightOffset = new Vector3(0, 1.8f, 0);
         Vector3 standardOffset = new Vector3(0, 0, -camera.distance);
 
         Vector3 targetPosition = player.position + heightOffset + rotation * standardOffset;
