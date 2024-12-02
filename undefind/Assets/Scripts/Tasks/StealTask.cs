@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StealTask : Task
 {
-    public override string taskName => "”красть корону";
+    public override string taskName => "”красть мешок с золотом";
     public override string animationParameter => "isPicking";
     public override void Initialize(GameObject taskObject)
     {

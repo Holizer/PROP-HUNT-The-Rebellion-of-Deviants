@@ -5,7 +5,6 @@ using UnityEngine;
 public class TaskVisibilityController : MonoBehaviour
 {
     public Transform player;
-    public string outlineMaterialName = "Outline";
     private PhotonView view;
 
     void Awake()
@@ -41,9 +40,6 @@ public class TaskVisibilityController : MonoBehaviour
     public void MakeTaskInvisibleForHunter(Transform task)
     {
         DestroyTaskZoneFromTask(task);
-
-        RemoveMaterialFromFirstChild(task);
-
         SetLayerForFirstChild(task, 0);
     }
     public void DestroyTaskZoneFromTask(Transform task)
@@ -58,28 +54,6 @@ public class TaskVisibilityController : MonoBehaviour
             Debug.LogWarning($"TaskZone не найден для {task.name}");
         }
     }
-
-    public void RemoveMaterialFromFirstChild(Transform parent)
-    {
-        if (parent.childCount > 0)
-        {
-            Transform firstChild = parent.GetChild(0);
-            Renderer renderer = firstChild.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                renderer.materials = new Material[0];
-            }
-            else
-            {
-                Debug.LogWarning($"Renderer не найден у {firstChild.name}");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"У {parent.name} нет дочерних объектов");
-        }
-    }
-
     public void SetLayerForFirstChild(Transform parent, int layer)
     {
         if (parent.childCount > 0)

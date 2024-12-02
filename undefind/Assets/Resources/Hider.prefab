@@ -302,7 +302,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -260}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &503636662772566269
 MonoBehaviour:
@@ -456,7 +456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1223745287403438563
 Transform:
   m_ObjectHideFlags: 0
@@ -703,6 +703,7 @@ GameObject:
   - component: {fileID: 1522108277119045338}
   - component: {fileID: 344053713936982442}
   - component: {fileID: 4846741048637012449}
+  - component: {fileID: 2485492741813234899}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -772,7 +773,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -828,6 +829,31 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 1
+--- !u!114 &2485492741813234899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361954548539951192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb42831ee5422f409e7f24f9e7488ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage: 1
+  renderingStrategy: 0
+  renderingMode: 0
+  outlineLayerMask: -1
+  primaryBufferSizeMode: 0
+  primaryRendererScale: 0.75
+  primarySizeReference: 800
+  blurShift: 1
+  dilateShift: 1
+  dilateIterations: 1
+  dilateQuality: 0
+  blurIterations: 1
+  blurType: 1
 --- !u!1 &9124820471631218252
 GameObject:
   m_ObjectHideFlags: 0
