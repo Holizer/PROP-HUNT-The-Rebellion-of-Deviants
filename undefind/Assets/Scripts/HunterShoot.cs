@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class HunterShoot : MonoBehaviourPunCallbacks
 {
-    public float damage = 10f;
     public float range = 30f;
     public ThirdPersonCamera thirdPersonCamera;
     public ParticleSystem Muzzelflash;
@@ -34,14 +33,30 @@ public class HunterShoot : MonoBehaviourPunCallbacks
         RaycastHit hit;
         if (Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.forward, out hit, range))
         {
-            if (hit.rigidbody != null)
-            {
-                hit.rigidbody.AddForce(hit.normal * Muzzelforce);
-            }
-
-            GameObject hitEffect = Instantiate(Flareeffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(hitEffect, 2f);
+            HandleHit(hit);
         }
+    }
+
+    private void HandleHit(RaycastHit hit)
+    {
+        if (hit.collider.CompareTag("Hider"))
+        {
+            GameManager.Instance.SetHiderStatus(false);
+            GameManager.Instance.CheckTasksCompletion();
+        }
+
+        if (hit.collider.CompareTag("Hunter"))
+        {
+            return; 
+        }
+
+        if (hit.rigidbody != null)
+        {
+            hit.rigidbody.AddForce(hit.normal * Muzzelforce);
+        }
+
+        GameObject hitEffect = Instantiate(Flareeffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(hitEffect, 2f);
     }
 
     [PunRPC]
@@ -53,8 +68,7 @@ public class HunterShoot : MonoBehaviourPunCallbacks
         RaycastHit hit;
         if (Physics.Raycast(position, direction, out hit, range))
         {
-            GameObject hitEffect = Instantiate(Flareeffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(hitEffect, 2f);
+            HandleHit(hit);
         }
     }
 }

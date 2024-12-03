@@ -2616,7 +2616,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1061272287401612070}
-  outlineMaterialName: Outline
 --- !u!114 &5691620587889356672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2678,7 +2677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1b6ae59d066ed544a5e29cea56cd21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
   range: 30
   thirdPersonCamera: {fileID: 7121103311826667858}
   Muzzelflash: {fileID: 606280578810112300, guid: 73d106204f6dfa44791619c2617c3d65, type: 3}
