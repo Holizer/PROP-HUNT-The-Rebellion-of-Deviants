@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NPCManager : MonoBehaviour
 {
@@ -24,8 +25,14 @@ public class NPCManager : MonoBehaviour
         {
             GameObject npc = Instantiate(model);
             npc.name = model.name;
+            // Добавление компонента NavMeshAgent
+            NavMeshAgent agent = npc.AddComponent<NavMeshAgent>();
             NPCInstances.Add(npc);
             Debug.Log($"Создан NPC: {npc.name}");
+
+            // Дополнительно можно настроить скорость, радиус и другие параметры агента
+            agent.speed = 3.5f;
+            agent.angularSpeed = 120f;
         }
     }
 }

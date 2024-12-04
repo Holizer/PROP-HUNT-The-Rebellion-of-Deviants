@@ -72,7 +72,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (statusText != null)
         {
-            statusText.text = isReady ? "Вы готовы!" : "Ожидаем остальных игроков";
+            statusText.text = isReady ? "Вы готовы!" : "Ожидаем готовности всех игроков";
         }
     }
 
@@ -155,7 +155,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < players.Count; i++)
         {
-            string role = (i == hunterIndex) ? "Hider" : "Hunter"; 
+            string role = (i == hunterIndex) ? "Hunter" : "Hider"; 
 
             PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
             players[i].SetCustomProperties(playerProperties);

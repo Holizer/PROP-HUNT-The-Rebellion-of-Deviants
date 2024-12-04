@@ -9,7 +9,7 @@ public class TaskManager : MonoBehaviour
     private List<Task> tasks = new List<Task>();
 
     [Header("Персонаж игрока или бота")]
-    public GameObject performer;
+    private GameObject performer;
 
     [Header("UI Подсказака управления")]
     public GameObject taskHintUI;

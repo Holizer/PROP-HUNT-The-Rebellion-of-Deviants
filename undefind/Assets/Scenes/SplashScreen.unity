@@ -9,7 +9,7 @@ OcclusionCullingSettings:
     smallestHole: 0.25
     backfaceThreshold: 100
   m_SceneGUID: 9e7f8198e4fe82b49914fff32f7ee521
-  m_OcclusionCullingData: {fileID: 36300000, guid: 6d399fc9ebb945e4cbf0e6acbbe2b9f4, type: 2}
+  m_OcclusionCullingData: {fileID: 36300000, guid: cf078cfa54b0a4b49894cfd01b6fc45a, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1200}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

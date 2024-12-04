@@ -1,15 +1,16 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviourPunCallbacks
 {
+    public GameObject settingsPanel;
     private void Start()
     {
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
         }
+        settingsPanel.SetActive(false);
     }
 
     public void OnMultiplayerButtonClicked()
@@ -19,6 +20,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
 
     public void OnOptionsButtonClicked()
     {
+        settingsPanel.SetActive(true);
     }
 
     public void OnQuitButtonClicked()
