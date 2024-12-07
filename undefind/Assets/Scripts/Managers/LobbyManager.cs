@@ -155,7 +155,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < players.Count; i++)
         {
-            string role = (i == hunterIndex) ? "Hunter" : "Hider"; 
+            string role = (i == hunterIndex) ? "Hider" : "Hunter"; 
 
             PhotonHashtable playerProperties = new PhotonHashtable { { "Role", role } };
             players[i].SetCustomProperties(playerProperties);

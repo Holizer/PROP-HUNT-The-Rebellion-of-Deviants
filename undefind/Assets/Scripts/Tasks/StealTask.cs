@@ -3,7 +3,7 @@ using UnityEngine;
 public class StealTask : Task
 {
     public override string taskName => "”красть мешок с золотом";
-    public override string animationParameter => "isPicking";
+    public override string animationParameter => "IsSteal";
     public override void Initialize(GameObject taskObject)
     {
         base.Initialize(gameObject);

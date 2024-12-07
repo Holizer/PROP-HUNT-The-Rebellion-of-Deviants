@@ -204,7 +204,7 @@ public class TaskManager : MonoBehaviour
             HandleHider(performer, false);
         }
         
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 

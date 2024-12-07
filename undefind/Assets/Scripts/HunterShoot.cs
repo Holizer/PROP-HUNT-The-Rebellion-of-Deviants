@@ -39,10 +39,22 @@ public class HunterShoot : MonoBehaviourPunCallbacks
 
     private void HandleHit(RaycastHit hit)
     {
-        if (hit.collider.CompareTag("Hider"))
-        {
+        if (hit.collider.CompareTag("Hider")) {
+            Animator animator = hit.collider.GetComponentInChildren<Animator>();
+            if (animator != null) {
+                animator.SetBool("IsDeath", true);
+            }
             GameManager.Instance.SetHiderStatus(false);
             GameManager.Instance.CheckTasksCompletion();
+        }
+
+        if (hit.collider.CompareTag("NPC"))
+        {
+            Animator animator = hit.collider.GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                animator.SetBool("IsDeath", true);
+            }
         }
 
         if (hit.collider.CompareTag("Hunter"))
