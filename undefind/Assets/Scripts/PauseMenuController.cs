@@ -6,21 +6,14 @@ public class PauseMenuController : MonoBehaviour
     [Header("Компонент состояния игрока")]
     [SerializeField] private PlayerStateManager playerStateManager;
 
-    [Header("UI Элементы")]
-    public GameObject pauseMenuUI;
-    public GameObject settingsMenuUI;
+    [Header("UI Менеджер")]
+    [SerializeField] private UIManager uiManager;
 
     [Header("Состояние игры")]
     protected static bool isPaused = false;
 
-
     void Start()
     {
-        if (playerStateManager == null)
-        {
-            playerStateManager = transform.parent.GetComponent<PlayerStateManager>();
-        };
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -43,7 +36,7 @@ public class PauseMenuController : MonoBehaviour
     private void Pause()
     {
         isPaused = true;
-        pauseMenuUI.SetActive(true);
+        uiManager.ShowPauseMenu(); 
         SetCursorState(true, CursorLockMode.None);
 
         playerStateManager.PauseGame();
@@ -52,7 +45,7 @@ public class PauseMenuController : MonoBehaviour
     private void Resume()
     {
         isPaused = false;
-        pauseMenuUI.SetActive(false);
+        uiManager.HidePauseMenu(); 
         SetCursorState(false, CursorLockMode.Locked);
 
         playerStateManager.ResumeGame();
@@ -71,7 +64,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void OnSettings()
     {
-        settingsMenuUI.SetActive(true);
+        uiManager.ShowSettingsMenu();
     }
 
     public void OnExitToMainMenu()

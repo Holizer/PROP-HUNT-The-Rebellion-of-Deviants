@@ -9,10 +9,17 @@ public class PlayerStateManager : MonoBehaviour
     public PlayerRole Role = PlayerRole.Hider;
     public IPlayerState CurrentState => currentState;
 
+    [SerializeField] private UIManager uiManager;
+
     public void Start()
     {
         currentState = new AliveState();
         currentState.EnterState(this);
+        
+        if (uiManager == null)
+        {
+            uiManager = GetComponentInChildren<UIManager>();
+        }
     }
 
     public void Update()
@@ -26,6 +33,7 @@ public class PlayerStateManager : MonoBehaviour
         currentState = newState;
         currentState.EnterState(this);
     }
+
     public void PauseGame()
     {
         if (!(currentState is PauseState) && !IsDead())
@@ -53,5 +61,10 @@ public class PlayerStateManager : MonoBehaviour
             GetComponent<HunterMovement>().enabled = enabled;
         }
         GetComponentInChildren<ThirdPersonCamera>().enabled = enabled;
+    }
+
+    public void ShowEndGameMessage(string message, Color color)
+    {
+        uiManager.DisplayMessage(message, color);
     }
 }

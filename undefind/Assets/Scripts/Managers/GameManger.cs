@@ -20,17 +20,19 @@ public class GameManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
+
     public void AssignTaskManager(TaskManager newTaskManager)
     {
         taskManager = newTaskManager;
-        Debug.Log("TaskManager был назначен вручную.");
     }
 
     public void SetHiderStatus(bool isAlive)
     {
+        Debug.Log("gameEnded:" + gameEnded);
         if (gameEnded) return;
 
         hiderAlive = isAlive;
+        Debug.Log("hiderAlive:" + hiderAlive);
 
         if (!hiderAlive)
         {
@@ -59,6 +61,39 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void NotifyGameEnd(string winningTeam)
     {
         gameEnded = true;
-        Debug.Log($"Игра завершена! Победила команда: {winningTeam}");
+        string message;
+        Color messageColor;
+
+        foreach (var player in FindObjectsOfType<PlayerStateManager>())
+        {
+            if (player.Role == PlayerRole.Hider)
+            {
+                if (winningTeam == "Hider")
+                {
+                    message = "Вы победили!";
+                    messageColor = Color.green; 
+                }
+                else
+                {
+                    message = "Вы проиграли!";
+                    messageColor = Color.red;
+                }
+            }
+            else 
+            {
+                if (winningTeam == "Hunter")
+                {
+                    message = "Вы победили!";
+                    messageColor = Color.green; 
+                }
+                else
+                {
+                    message = "Вы проиграли!";
+                    messageColor = Color.red;  
+                }
+            }
+
+            player.ShowEndGameMessage(message, messageColor);
+        }
     }
 }

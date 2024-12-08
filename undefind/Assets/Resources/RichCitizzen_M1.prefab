@@ -30,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.001533
+      value: -16.001476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.000012993813
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.2300997
+      value: 1.9273968
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -254,9 +254,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 407898041888184663}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2575721030783445005}
   m_SourcePrefab: {fileID: 100100000, guid: 699ddf14116c3d44b987fe46e42cd38d, type: 3}
 --- !u!1 &2241279013360955233 stripped
 GameObject:
@@ -311,26 +308,3 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!136 &2575721030783445005
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2241279013360955233}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.35
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}

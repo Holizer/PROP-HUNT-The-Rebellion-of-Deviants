@@ -39,15 +39,14 @@ public class HunterShoot : MonoBehaviourPunCallbacks
 
     private void HandleHit(RaycastHit hit)
     {
+        Debug.Log($"Попадание в {hit.collider}");
         if (hit.collider.CompareTag("Hider")) {
-
+            GameManager.Instance.SetHiderStatus(false);
             PlayerStateManager playerStateManager = hit.collider.GetComponent<PlayerStateManager>();
             if (playerStateManager != null)
             {
                 playerStateManager.Health -= 100;
             }
-            GameManager.Instance.SetHiderStatus(false);
-            GameManager.Instance.CheckTasksCompletion();
         }
 
         if (hit.collider.CompareTag("NPC"))

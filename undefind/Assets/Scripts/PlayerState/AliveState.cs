@@ -7,7 +7,6 @@ public class AliveState : IPlayerState
 {
     public void EnterState(PlayerStateManager player)
     {
-        Debug.Log("Игрок жив! Можно управлять персонажем.");
         player.SetPlayerControls(true);
     }
 
@@ -19,10 +18,7 @@ public class AliveState : IPlayerState
         }
     }
 
-    public void ExitState(PlayerStateManager player)
-    {
-        Debug.Log("Игрок больше не жив.");
-    }
+    public void ExitState(PlayerStateManager player) { }
 
     public bool IsApplicable(PlayerStateManager player) => true;
 }

@@ -6,11 +6,6 @@ public class TaskVisibilityController : MonoBehaviour
 {
     public Transform player;
     private PhotonView view;
-
-    void Awake()
-    {
-    }
-
     void Start()
     {
         view = player.GetComponent<PhotonView>();
@@ -30,10 +25,6 @@ public class TaskVisibilityController : MonoBehaviour
             {
                 Debug.LogError($"TaskContainer не найден!");
             }
-        }
-        else
-        {
-            Debug.Log("Действия не применяются, так как игрок не является охотником или это не локальный клиент.");
         }
     }
 
