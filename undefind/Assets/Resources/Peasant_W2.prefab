@@ -30,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40f771141ccd555469060da927518910, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8.750504
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40f771141ccd555469060da927518910, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000022649765
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40f771141ccd555469060da927518910, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 5.948225
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40f771141ccd555469060da927518910, type: 3}
       propertyPath: m_LocalRotation.w
@@ -148,6 +148,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40f771141ccd555469060da927518910, type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
     - target: {fileID: 1541160571493412629, guid: 40f771141ccd555469060da927518910, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -254,6 +258,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 40f771141ccd555469060da927518910, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8131931073037957979}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 40f771141ccd555469060da927518910, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4965947647223854296}
   m_SourcePrefab: {fileID: 100100000, guid: 40f771141ccd555469060da927518910, type: 3}
 --- !u!1 &1372781480472383414 stripped
 GameObject:
@@ -299,9 +306,35 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Velocity
-  - Type: 4
+  - Type: 9
     SynchronizeType: 1
-    Name: isPicking
+    Name: IsDeath
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsSteal
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!136 &4965947647223854296
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372781480472383414}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}

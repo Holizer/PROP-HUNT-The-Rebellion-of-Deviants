@@ -55,6 +55,13 @@ public class HunterAnimation : MonoBehaviour
 
     private void UpdateAniamtion()
     {
+        if (GameIsPaused())
+        {
+            velocity -= Time.deltaTime * deceleration;
+            animator.SetFloat(VelocityHash, velocity);
+            return;
+        }
+
         bool forwardPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
         bool aimPressed = Input.GetMouseButton(1);
@@ -150,6 +157,10 @@ public class HunterAnimation : MonoBehaviour
         animator.SetFloat(VelocityHash, velocity);
         animator.SetFloat(PistolVelocityHash, pistolVelocity);
         animator.SetBool(IsAimingHash, aimPressed);
+    }
+    private bool GameIsPaused()
+    {
+        return GetComponent<PlayerStateManager>().CurrentState is PauseState;
     }
 
     [PunRPC]

@@ -5814,6 +5814,7 @@ GameObject:
   - component: {fileID: 3377092755989629367}
   - component: {fileID: 8083931889502783827}
   - component: {fileID: 3121876803214798727}
+  - component: {fileID: 1171577691378415096}
   m_Layer: 0
   m_Name: Hunter
   m_TagString: Hunter
@@ -5830,7 +5831,7 @@ Transform:
   m_GameObject: {fileID: 5736714324786678247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7396355, y: 1.6314461, z: 0.5976231}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6018,6 +6019,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5736714324786678247}
   m_Enabled: 1
+--- !u!114 &1171577691378415096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5736714324786678247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9fba8b6f51ac364090a03d4c92e53b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Role: 1
 --- !u!1 &5769137863608165587
 GameObject:
   m_ObjectHideFlags: 0
@@ -6992,12 +7006,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa7ae9564ef0814cbe66d0ff0bad115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateManager: {fileID: 0}
   pauseMenuUI: {fileID: 5427956940470654423}
   settingsMenuUI: {fileID: 4889658579108697032}
-  componentsToDisable:
-  - {fileID: 7121103311826667858}
-  - {fileID: 5691620587889356672}
-  - {fileID: 1258065541813110290}
 --- !u!1 &6671331006926368581
 GameObject:
   m_ObjectHideFlags: 0

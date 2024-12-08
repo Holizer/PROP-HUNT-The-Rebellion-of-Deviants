@@ -7,10 +7,28 @@ public class NPCManager : MonoBehaviour
     [Header("Модели крестьян")]
     public List<GameObject> peasantModels;
     public static List<GameObject> NPCInstances { get; private set; } = new List<GameObject>();
-
+    private GameObject reservedNPCModel;
     void Awake()
     {
+        ReserveNPCForHider();
         SpawnAllNPCs();
+    }
+    private void ReserveNPCForHider()
+    {
+        if (peasantModels == null || peasantModels.Count == 0)
+        {
+            Debug.LogError("Список моделей крестьян не заполнен!");
+            return;
+        }
+
+        int randomIndex = Random.Range(0, peasantModels.Count);
+        reservedNPCModel = peasantModels[randomIndex];
+        peasantModels.RemoveAt(randomIndex);
+    }
+
+    public GameObject GetReservedNPCModel()
+    {
+        return reservedNPCModel;
     }
 
     private void SpawnAllNPCs()
@@ -25,14 +43,10 @@ public class NPCManager : MonoBehaviour
         {
             GameObject npc = Instantiate(model);
             npc.name = model.name;
-            // Добавление компонента NavMeshAgent
+            
             NavMeshAgent agent = npc.AddComponent<NavMeshAgent>();
             NPCInstances.Add(npc);
-            Debug.Log($"Создан NPC: {npc.name}");
-
-            // Дополнительно можно настроить скорость, радиус и другие параметры агента
-            agent.speed = 3.5f;
-            agent.angularSpeed = 120f;
+            npc.AddComponent<BotAI>();
         }
     }
 }

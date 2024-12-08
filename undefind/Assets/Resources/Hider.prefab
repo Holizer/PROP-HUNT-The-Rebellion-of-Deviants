@@ -2266,6 +2266,8 @@ GameObject:
   - component: {fileID: 5750223334299761953}
   - component: {fileID: 8532575513308812515}
   - component: {fileID: 7043218396897411251}
+  - component: {fileID: 4329350105894590297}
+  - component: {fileID: 2117205191429013183}
   m_Layer: 0
   m_Name: Hider
   m_TagString: Hider
@@ -2282,14 +2284,13 @@ Transform:
   m_GameObject: {fileID: 2920840629668983938}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0628767, y: -0.39796352, z: -2.5936785}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7233757676361050336}
   - {fileID: 3309057048702828506}
   - {fileID: 5513019871751211293}
-  - {fileID: 8396875955786413021}
   - {fileID: 8458812081422233177}
   - {fileID: 7517411716952777036}
   m_Father: {fileID: 0}
@@ -2313,7 +2314,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.9
+  m_Height: 2
   m_Radius: 0.35
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -2417,7 +2418,6 @@ MonoBehaviour:
   objectsToDisable:
   - {fileID: 441655496148422590}
   - {fileID: 1428004206208897632}
-  - {fileID: 4308821267754680719}
   - {fileID: 7044163618544825919}
   - {fileID: 243220048036335634}
 --- !u!114 &7043218396897411251
@@ -2433,6 +2433,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentModel: {fileID: 0}
+--- !u!114 &4329350105894590297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920840629668983938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9fba8b6f51ac364090a03d4c92e53b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Role: 0
+--- !u!114 &2117205191429013183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920840629668983938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef18a562d4d63cc4aab5ec442858c3a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskList: {fileID: 1323145253328151153}
+  taskHintUI: {fileID: 151751690663770349}
 --- !u!1 &2922033246667168030
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,52 +3180,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &4308821267754680719
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8396875955786413021}
-  - component: {fileID: 3183424671625646380}
-  m_Layer: 0
-  m_Name: TaskManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8396875955786413021
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4308821267754680719}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0628767, y: 2.1979637, z: 2.1936784}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1223745287403438563}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3183424671625646380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4308821267754680719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef18a562d4d63cc4aab5ec442858c3a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  taskList: {fileID: 1323145253328151153}
-  taskHintUI: {fileID: 151751690663770349}
 --- !u!1 &4447959538218938287
 GameObject:
   m_ObjectHideFlags: 0
@@ -4863,12 +4844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa7ae9564ef0814cbe66d0ff0bad115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateManager: {fileID: 0}
   pauseMenuUI: {fileID: 2922033246667168030}
   settingsMenuUI: {fileID: 8914233229357745673}
-  componentsToDisable:
-  - {fileID: 1222155480475172035}
-  - {fileID: 2116684935180595121}
-  - {fileID: 5750223334299761953}
 --- !u!1 &7140126055126981062
 GameObject:
   m_ObjectHideFlags: 0

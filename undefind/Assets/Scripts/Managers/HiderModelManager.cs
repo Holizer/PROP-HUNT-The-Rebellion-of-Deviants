@@ -1,36 +1,34 @@
-using UnityEngine;
 using Photon.Pun;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class HiderModelManager : MonoBehaviourPun
 {
     [Header("Текущая игровая модель")]
     [SerializeField] private GameObject currentModel;
 
-    public void AssignRandomNPCModel(List<GameObject> npcModels)
+    public void AssignReservedNPCModel()
     {
-        if (npcModels == null || npcModels.Count == 0)
+        GameObject reservedModel = FindObjectOfType<NPCManager>().GetReservedNPCModel();
+        if (reservedModel == null)
         {
-            Debug.LogError("Нет доступных NPC моделей для Hider!");
+            Debug.LogError("Зарезервированная модель NPC не найдена!");
             return;
         }
-
-        int randomIndex = Random.Range(0, npcModels.Count);
-        GameObject selectedModel = npcModels[randomIndex];
 
         if (currentModel != null)
         {
             Destroy(currentModel);
         }
 
-        Transform model = transform.Find("Model");
-        if (model == null)
+        Transform modelContainer = transform.Find("Model");
+        if (modelContainer == null)
         {
-            Debug.LogError("Не найден конетйнер Model!");
+            Debug.LogError("Не найден контейнер Model!");
             return;
         }
-        currentModel = Instantiate(selectedModel, model.position, model.rotation, model);
-        currentModel.name = selectedModel.name;
+
+        currentModel = Instantiate(reservedModel, modelContainer.position, modelContainer.rotation, modelContainer);
+        currentModel.name = reservedModel.name;
 
         PhotonAnimatorView photonAnimationView = currentModel.GetComponent<PhotonAnimatorView>();
         if (photonAnimationView != null)
@@ -39,40 +37,38 @@ public class HiderModelManager : MonoBehaviourPun
             photonView.ObservedComponents.Add(photonAnimationView);
         }
 
-        photonView.RPC("SyncModelOnAllClients", RpcTarget.Others, selectedModel.name);
+        photonView.RPC("SyncModelOnAllClients", RpcTarget.Others, reservedModel.name);
     }
 
     [PunRPC]
     private void SyncModelOnAllClients(string modelName)
     {
         GameObject selectedModel = Resources.Load<GameObject>(modelName);
-
         if (selectedModel != null)
         {
-            if (currentModel == null)
+            Transform modelContainer = transform.Find("Model");
+            if (modelContainer == null)
             {
-                Transform model = transform.Find("Model");
-                if (model == null)
-                {
-                    Debug.LogError("Не найден конетйнер Model!");
-                    return;
-                }
-                currentModel = Instantiate(selectedModel, model.position, model.rotation, model);
-                currentModel.name = selectedModel.name;
-
-                PhotonAnimatorView photonAnimationView = currentModel.GetComponentInChildren<PhotonAnimatorView>();
-                if (photonAnimationView != null)
-                {
-                    photonAnimationView.enabled = true;
-                    photonView.ObservedComponents.Add(photonAnimationView);
-                }
-
-                Debug.Log($"Hider получил модель NPC: {currentModel.name}");
+                Debug.LogError("Не найден контейнер Model!");
+                return;
             }
-            else
+
+            if (currentModel != null)
             {
-                Debug.LogWarning("Модель уже установлена!");
+                Destroy(currentModel);
             }
+
+            currentModel = Instantiate(selectedModel, modelContainer.position, modelContainer.rotation, modelContainer);
+            currentModel.name = selectedModel.name;
+
+            PhotonAnimatorView photonAnimationView = currentModel.GetComponent<PhotonAnimatorView>();
+            if (photonAnimationView != null)
+            {
+                photonAnimationView.enabled = true;
+                photonView.ObservedComponents.Add(photonAnimationView);
+            }
+
+            Debug.Log($"Hider получил модель NPC: {currentModel.name}");
         }
         else
         {

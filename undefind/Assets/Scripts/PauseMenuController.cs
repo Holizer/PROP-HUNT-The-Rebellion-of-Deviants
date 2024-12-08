@@ -3,18 +3,28 @@ using UnityEngine;
 
 public class PauseMenuController : MonoBehaviour
 {
+    [Header("Компонент состояния игрока")]
+    [SerializeField] private PlayerStateManager playerStateManager;
+
+    [Header("UI Элементы")]
     public GameObject pauseMenuUI;
     public GameObject settingsMenuUI;
 
+    [Header("Состояние игры")]
     protected static bool isPaused = false;
 
-    [Tooltip("Отключить указанные компоненты во время меню паузы.")]
-    public MonoBehaviour[] componentsToDisable;
+
     void Start()
     {
+        if (playerStateManager == null)
+        {
+            playerStateManager = transform.parent.GetComponent<PlayerStateManager>();
+        };
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -32,22 +42,20 @@ public class PauseMenuController : MonoBehaviour
 
     private void Pause()
     {
-
         isPaused = true;
         pauseMenuUI.SetActive(true);
-
-        ToggleComponentsEnabledState(false);
         SetCursorState(true, CursorLockMode.None);
+
+        playerStateManager.PauseGame();
     }
 
     private void Resume()
     {
-
         isPaused = false;
         pauseMenuUI.SetActive(false);
-        
         SetCursorState(false, CursorLockMode.Locked);
-        ToggleComponentsEnabledState(true);
+
+        playerStateManager.ResumeGame();
     }
 
     private void SetCursorState(bool visible, CursorLockMode cursorLockMode)
@@ -55,13 +63,7 @@ public class PauseMenuController : MonoBehaviour
         Cursor.visible = visible;
         Cursor.lockState = cursorLockMode;
     }
-    private void ToggleComponentsEnabledState(bool isEnable)
-    {
-        foreach (var component in componentsToDisable)
-        {
-            component.enabled = isEnable;
-        }
-    }
+
     public void OnContinue()
     {
         Resume();

@@ -12,8 +12,8 @@ public class HiderAnimation : MonoBehaviour
 
     [Header("Настройки движения")]
     [SerializeField] private float acceleration = 0.3f;
-    [SerializeField] private float deceleration = 0.8f;
-    [SerializeField] private float runMultiplier = 3.0f;
+    [SerializeField] private float deceleration = 1.8f;
+    [SerializeField] private float runMultiplier = 4.0f;
     [SerializeField] private float quickStopMultiplier = 4.0f;
     
     [Header("Хеши анимаций")]
@@ -63,39 +63,58 @@ public class HiderAnimation : MonoBehaviour
 
     private void UpdateAniamtion()
     {
+        if (GameIsPaused())
+        {
+            velocity -= Time.deltaTime * deceleration;
+            animator.SetFloat(VelocityHash, velocity);
+            return;
+        }
+
+        // Обрабатываем ввод клавиш для передвижения
         bool forwardPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S);
         bool runPressed = Input.GetKey(KeyCode.LeftShift);
 
+        // Если игрок бежит и нажаты клавиши движения
         if (runPressed && forwardPressed && velocity < 1.0f)
         {
-            velocity += Time.deltaTime * acceleration * runMultiplier;
+            velocity += Time.deltaTime * acceleration * runMultiplier; 
         }
 
+        // Если просто идёт
         if (forwardPressed && velocity < 1.0f)
         {
-            velocity += Time.deltaTime * acceleration;
+            velocity += Time.deltaTime * acceleration; 
         }
 
+        // Если движется, но перестаёт бежать
         if (forwardPressed && !runPressed && velocity > .2f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
 
+        // Если не двигается, замедляемся до остановки
         if (!forwardPressed && velocity > 0.0f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
 
+        // Если резко останавливается, применяем дополнительное замедление
         if (!runPressed && velocity > 0.2f && !forwardPressed)
         {
             velocity -= Time.deltaTime * deceleration * quickStopMultiplier;
         }
 
+        // Ограничиваем скорость ниже нуля
         if (velocity < 0.0f)
         {
             velocity = 0.0f;
         }
-       
+
         animator.SetFloat(VelocityHash, velocity);
+    }
+
+    private bool GameIsPaused()
+    {
+        return GetComponent<PlayerStateManager>().CurrentState is PauseState;
     }
 }
