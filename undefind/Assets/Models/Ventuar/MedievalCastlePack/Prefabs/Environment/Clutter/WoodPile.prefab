@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23789564953582504}
   - component: {fileID: 6942233065114781760}
   - component: {fileID: 3536201469766127250}
+  - component: {fileID: 8935715019123876883}
   m_Layer: 0
   m_Name: WoodPile
   m_TagString: Untagged
@@ -127,3 +128,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65, y: 0.2, z: 1.15}
   m_Center: {x: 0, y: -0.03, z: 0}
+--- !u!208 &8935715019123876883
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436255411562754}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.34300002, y: 0.18, z: 0.577}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.006, y: 0.036000002, z: 0.002}
+  m_TimeToStationary: 0.5

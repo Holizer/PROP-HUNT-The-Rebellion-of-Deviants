@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HunterShoot : MonoBehaviourPunCallbacks
 {
@@ -39,14 +40,13 @@ public class HunterShoot : MonoBehaviourPunCallbacks
 
     private void HandleHit(RaycastHit hit)
     {
-        Debug.Log($"Попадание в {hit.collider}");
         if (hit.collider.CompareTag("Hider")) {
-            GameManager.Instance.SetHiderStatus(false);
             PlayerStateManager playerStateManager = hit.collider.GetComponent<PlayerStateManager>();
             if (playerStateManager != null)
             {
                 playerStateManager.Health -= 100;
             }
+            GameManager.Instance.SetHiderStatus(false);
         }
 
         if (hit.collider.CompareTag("NPC"))
@@ -56,6 +56,10 @@ public class HunterShoot : MonoBehaviourPunCallbacks
             {
                 animator.SetBool("IsDeath", true);
             }
+            NavMeshAgent agent = hit.collider.GetComponent<NavMeshAgent>();
+            agent.enabled = false;
+
+            GameManager.Instance.EndGame("Hider");
         }
 
         if (hit.collider.CompareTag("Hunter"))

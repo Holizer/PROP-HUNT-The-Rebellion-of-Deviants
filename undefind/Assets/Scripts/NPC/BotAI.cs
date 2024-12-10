@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +21,9 @@ public class BotAI : MonoBehaviour
 
     [Header("Параметры анимации")]
     private int velocityHash;
+
+    [Header("Точки интереса")]
+    public List<Transform> pointsOfInterest;
 
     [Header("Патрулирование")]
     [SerializeField] private float patrolRange = 10f;

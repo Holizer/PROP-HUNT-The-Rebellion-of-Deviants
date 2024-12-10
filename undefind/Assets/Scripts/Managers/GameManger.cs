@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private TaskManager taskManager;
     private bool hiderAlive = true;
-    private bool gameEnded = false;
+    public bool gameEnded { get; private set; } = false;
 
     void Awake()
     {
@@ -28,11 +28,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SetHiderStatus(bool isAlive)
     {
-        Debug.Log("gameEnded:" + gameEnded);
         if (gameEnded) return;
 
         hiderAlive = isAlive;
-        Debug.Log("hiderAlive:" + hiderAlive);
 
         if (!hiderAlive)
         {
@@ -53,7 +51,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void EndGame(string winningTeam)
     {
         gameEnded = true;
-        Debug.Log($"Победила команда: {winningTeam}!");
         photonView.RPC("NotifyGameEnd", RpcTarget.All, winningTeam);
     }
 

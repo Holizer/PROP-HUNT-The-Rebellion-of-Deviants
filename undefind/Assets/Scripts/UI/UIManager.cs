@@ -18,6 +18,15 @@ public class UIManager : MonoBehaviour
     public void HideMessage()
     {
         endGamePanel.SetActive(false);
+        ScreenFader screenFader = endGamePanel.GetComponent<ScreenFader>();
+        if (screenFader != null && screenFader.fadeImage != null)
+        {
+            Color color = screenFader.fadeImage.color;
+            color.a = 0f;
+            screenFader.fadeImage.color = color;
+
+            screenFader.FadeIn();
+        }
     }
 
     public void ShowPauseMenu()

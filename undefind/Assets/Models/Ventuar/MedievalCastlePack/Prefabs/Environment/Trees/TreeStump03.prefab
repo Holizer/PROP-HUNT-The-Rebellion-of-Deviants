@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33267911220778878}
   - component: {fileID: 23108824096402682}
   - component: {fileID: 4572997164193874866}
+  - component: {fileID: 1502212759749934134}
   m_Layer: 0
   m_Name: TreeStump03
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9491623, y: 0.9491623, z: 0.9491623}
+  m_LocalScale: {x: 0.9491626, y: 0.9491625, z: 0.9491626}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,3 +108,19 @@ CapsuleCollider:
   m_Height: 0.31550434
   m_Direction: 1
   m_Center: {x: 0, y: 0.15, z: 0}
+--- !u!208 &1502212759749934134
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856896754181074}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.186, y: 0.158, z: 0.18900001}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 0.158, z: 0.008}
+  m_TimeToStationary: 0.5

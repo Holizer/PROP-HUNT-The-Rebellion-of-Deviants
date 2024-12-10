@@ -4108,8 +4108,8 @@ RectTransform:
   m_Children:
   - {fileID: 7070119375900228195}
   - {fileID: 2574128731739620467}
-  - {fileID: 7557076206564251934}
   - {fileID: 8738033534652671208}
+  - {fileID: 7557076206564251934}
   m_Father: {fileID: 1061272287401612070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7332,7 +7332,6 @@ MonoBehaviour:
   - {fileID: 3550158602549473079}
   - {fileID: 3513201434099404790}
   - {fileID: 5620320053074884403}
-  - {fileID: 0}
   - {fileID: 2690931074893809558}
 --- !u!114 &5691620587889356672
 MonoBehaviour:
@@ -10815,6 +10814,7 @@ GameObject:
   - component: {fileID: 8738033534652671208}
   - component: {fileID: 7158532911304005091}
   - component: {fileID: 4596310080483571615}
+  - component: {fileID: 8132324594835639884}
   m_Layer: 0
   m_Name: GameEnd
   m_TagString: Untagged
@@ -10880,3 +10880,41 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8132324594835639884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103785308114663920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7d78e1b87eadc47b11452289411bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 4596310080483571615}
+  fadeDuration: 1
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
